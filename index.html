@@ -668,6 +668,7 @@
       document.getElementById("year").textContent = new Date().getFullYear();
       normalizeProjectData();
       setupFirebase();
+      setupImageProtection();
       bindGlobalEvents();
       renderAllStaticSections();
       setupAllFilters();
@@ -697,6 +698,29 @@
       } catch (error) {
         console.warn("Firebase init skipped:", error);
       }
+    }
+
+    function setupImageProtection() {
+      document.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        showToast("이미지 저장이 제한되어 있습니다.");
+      });
+
+      document.addEventListener("dragstart", (event) => {
+        if (event.target?.tagName === "IMG") {
+          event.preventDefault();
+        }
+      }, true);
+
+      document.addEventListener("keydown", (event) => {
+        const key = event.key.toLowerCase();
+        const isSaveShortcut = (event.ctrlKey || event.metaKey) && key === "s";
+        if (!isSaveShortcut) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        showToast("이미지 저장이 제한되어 있습니다.");
+      }, true);
     }
 
     function bindGlobalEvents() {
