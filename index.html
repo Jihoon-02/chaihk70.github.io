@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="3D environment art and visual portfolio by Jihoon Choi.">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>Jihoon Choi Portfolio</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Inter", "Pretendard", "system-ui", "sans-serif"],
+            body: ["Inter", "Pretendard", "system-ui", "sans-serif"]
+          },
+          colors: {
+            ink: "#0b0b0f",
+            panel: "#141419",
+            line: "rgba(255,255,255,.12)",
+            paper: "#f4f0e8",
+            mint: "#84dcc6",
+            coral: "#ff715b",
+            gold: "#f5c451"
+          },
+          boxShadow: {
+            soft: "0 20px 70px rgba(0,0,0,.36)"
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --header-height: 72px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(132, 220, 198, .10), transparent 28rem),
+        linear-gradient(135deg, #0b0b0f 0%, #171216 42%, #101418 100%);
+      overflow-x: hidden;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .section-view {
+      display: none;
+      min-height: calc(100vh - var(--header-height));
+      padding-top: calc(var(--header-height) + 2rem);
+      padding-bottom: 4rem;
+    }
+
+    .section-view.is-active {
+      display: block;
+    }
+
+    .glass {
+      background: rgba(18, 18, 22, .78);
+      border: 1px solid rgba(255, 255, 255, .10);
+      backdrop-filter: blur(18px);
+    }
+
+    .portfolio-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #18181d;
+      border: 1px solid rgba(255, 255, 255, .10);
+      min-height: 18rem;
+      cursor: pointer;
+      transform: translateZ(0);
+    }
+
+    .portfolio-card img {
+      background: #111116;
+      transition: transform .45s ease, filter .45s ease;
+    }
+
+    .portfolio-card:hover img {
+      transform: scale(1);
+      filter: saturate(1.08) contrast(1.06);
+    }
+
+    .portfolio-card .card-overlay {
+      background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, .78) 100%);
+    }
+
+    .portfolio-card .hover-date {
+      opacity: 0;
+      transform: translateY(.5rem);
+      transition: opacity .28s ease, transform .28s ease;
+    }
+
+    .portfolio-card:hover .hover-date {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav-link.is-active {
+      color: #0b0b0f;
+      background: #f4f0e8;
+    }
+
+    .hide-scrollbar {
+      scrollbar-width: none;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .lightbox-open {
+      overflow: hidden;
+    }
+
+    .toast {
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(.96);
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .rank-one {
+      grid-column: span 2;
+      grid-row: span 2;
+      min-height: 34rem;
+    }
+
+    .rank-wide {
+      grid-column: span 2;
+      min-height: 22rem;
+    }
+
+    .media-shell iframe,
+    .media-shell img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    @media (max-width: 1024px) {
+      .rank-one,
+      .rank-wide {
+        grid-column: span 1;
+        grid-row: span 1;
+        min-height: 22rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --header-height: 64px;
+      }
+
+      .section-view {
+        padding-top: calc(var(--header-height) + 1rem);
+      }
+
+      .portfolio-card {
+        min-height: 16rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-body text-neutral-100 antialiased">
+  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-ink/82 backdrop-blur-xl">
+    <div class="mx-auto flex h-[var(--header-height)] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+      <a href="#about" class="flex min-w-fit items-center gap-3" data-section-link="about" aria-label="ChaiHK home">
+        <span class="grid h-9 w-9 place-items-center rounded border border-white/15 bg-white/8 text-sm font-black tracking-tight">HK</span>
+        <span class="hidden text-sm font-semibold tracking-[.26em] text-neutral-200 sm:inline">CHAIHK70</span>
+      </a>
+
+      <nav class="hide-scrollbar flex flex-1 items-center gap-2 overflow-x-auto text-sm" aria-label="Primary navigation">
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="about">About</button>
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="spotlight">Spotlight</button>
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="all">ALL Portfolio</button>
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="professional">Professional</button>
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="personal">Personal Works</button>
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="sketch">Sketch Note</button>
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="designer">Designer</button>
+        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="relight">Re:Lighting</button>
+      </nav>
+
+      <button class="grid h-10 w-10 min-w-10 place-items-center rounded border border-white/15 bg-white/8 text-neutral-100 transition hover:bg-white hover:text-ink" data-copy-email aria-label="Copy email">
+        <i class="fa-regular fa-envelope"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="section-view is-active">
+      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
+        <div class="flex min-h-[calc(100vh-9rem)] flex-col justify-center">
+          <p class="mb-5 text-sm font-semibold uppercase tracking-[.32em] text-mint">3D Environment Artist</p>
+          <h1 class="max-w-4xl text-5xl font-black leading-[.95] tracking-normal text-paper sm:text-7xl lg:text-8xl">
+            ChaiHK Portfolio
+          </h1>
+          <p class="mt-8 max-w-2xl text-lg leading-8 text-neutral-300">
+            Hard surface, prop, environment, lighting, and visual development works collected in one portfolio flow.
+          </p>
+
+          <div class="mt-9 flex flex-wrap gap-3">
+            <button class="rounded bg-paper px-5 py-3 text-sm font-bold text-ink transition hover:bg-white" data-section-link="personal">
+              Works
+            </button>
+            <button class="rounded border border-white/18 px-5 py-3 text-sm font-bold text-white transition hover:bg-white hover:text-ink" data-section-link="professional">
+              Professional
+            </button>
+            <button class="rounded border border-white/18 px-5 py-3 text-sm font-bold text-white transition hover:bg-white hover:text-ink" data-copy-email>
+              Email <i class="fa-regular fa-envelope ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="relative min-h-[36rem] overflow-hidden rounded-lg border border-white/10 bg-panel shadow-soft">
+          <img src="images/Personal/20260302_Antique Fireplace/main.png" alt="Antique Fireplace portfolio preview" class="absolute inset-0 h-full w-full object-cover" loading="eager">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+            <p class="text-sm font-semibold uppercase tracking-[.28em] text-gold">Featured Work</p>
+            <h2 class="mt-3 text-3xl font-black text-white">Antique Fireplace</h2>
+            <p class="mt-2 max-w-md text-sm leading-6 text-neutral-300">Personal work archive connected to the gallery and lightbox system.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-12 grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
+        <button class="glass rounded-lg p-5 text-left transition hover:border-mint/50 hover:bg-white/10" data-company-link="Company A">
+          <span class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-400">Company</span>
+          <strong class="mt-3 block text-xl text-white">Company A</strong>
+        </button>
+        <button class="glass rounded-lg p-5 text-left transition hover:border-mint/50 hover:bg-white/10" data-company-link="Company B">
+          <span class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-400">Company</span>
+          <strong class="mt-3 block text-xl text-white">Company B</strong>
+        </button>
+        <button class="glass rounded-lg p-5 text-left transition hover:border-mint/50 hover:bg-white/10" data-company-link="Company C">
+          <span class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-400">Company</span>
+          <strong class="mt-3 block text-xl text-white">Company C</strong>
+        </button>
+      </div>
+    </section>
+
+    <section id="spotlight" class="section-view">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[.32em] text-gold">Rank Snapshot</p>
+            <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Spotlight</h2>
+          </div>
+          <p id="rankStatus" class="text-sm text-neutral-400">Daily snapshot</p>
+        </div>
+
+        <div id="rankGrid" class="grid auto-rows-fr gap-4 lg:grid-cols-4"></div>
+        <div class="mt-12">
+          <div class="mb-5 flex items-center justify-between">
+            <h3 class="text-2xl font-black text-white">Featured</h3>
+            <button class="rounded border border-white/15 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:bg-white hover:text-ink" data-section-link="all">View All</button>
+          </div>
+          <div id="featuredGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="all" class="section-view">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[.32em] text-mint">All Works</p>
+            <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">ALL Portfolio</h2>
+          </div>
+          <div class="flex flex-wrap gap-2" id="allFilters" aria-label="Portfolio filters"></div>
+        </div>
+
+        <div id="allGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <div id="allSentinel" class="h-16"></div>
+      </div>
+    </section>
+
+    <section id="professional" class="section-view">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <p class="text-sm font-semibold uppercase tracking-[.32em] text-coral">Client & Studio</p>
+          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Professional</h2>
+        </div>
+        <div id="professionalGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <div id="professionalEmpty" class="glass hidden rounded-lg p-8 text-neutral-300">
+          images/Professional/ 폴더에 작품 데이터를 추가하면 이 영역에 표시됩니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="personal" class="section-view">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <p class="text-sm font-semibold uppercase tracking-[.32em] text-mint">Archive</p>
+          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Personal Works</h2>
+        </div>
+        <div id="personalGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+
+      <footer class="mx-auto mt-16 max-w-7xl border-t border-white/10 px-4 py-8 text-sm text-neutral-400 sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span id="year"></span> ChaiHK70. Portfolio archive.</p>
+          <div class="flex flex-wrap gap-3">
+            <button class="rounded border border-white/15 px-4 py-2 font-semibold text-neutral-200 transition hover:bg-white hover:text-ink" data-copy-email>Email <i class="fa-regular fa-envelope ml-1"></i></button>
+            <button class="rounded border border-white/15 px-4 py-2 font-semibold text-neutral-200 transition hover:bg-white hover:text-ink" id="backToTop">Back to top</button>
+          </div>
+        </div>
+      </footer>
+    </section>
+
+    <section id="sketch" class="section-view">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <p class="text-sm font-semibold uppercase tracking-[.32em] text-gold">Studies</p>
+          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Sketch Note</h2>
+        </div>
+        <div id="sketchGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <section id="designer" class="section-view">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <p class="text-sm font-semibold uppercase tracking-[.32em] text-coral">Design Archive</p>
+          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Designer</h2>
+        </div>
+        <div id="designerGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <section id="relight" class="section-view">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <p class="text-sm font-semibold uppercase tracking-[.32em] text-mint">Lighting Studies</p>
+          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Re:Lighting</h2>
+        </div>
+        <div id="relightGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <div id="relightEmpty" class="glass hidden rounded-lg p-8 text-neutral-300">
+          images/ReLighting/ 폴더에 작품 데이터를 추가하면 이 영역에 표시됩니다.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/92 text-white" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="grid h-full grid-rows-[auto_1fr]">
+      <div class="flex items-center justify-between border-b border-white/10 px-4 py-3 sm:px-6">
+        <div class="min-w-0">
+          <p id="lightboxMeta" class="truncate text-xs font-semibold uppercase tracking-[.24em] text-neutral-400"></p>
+          <h2 id="lightboxTitle" class="truncate text-xl font-black sm:text-2xl"></h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="lightboxPrev" class="grid h-10 w-10 place-items-center rounded border border-white/15 bg-white/8 transition hover:bg-white hover:text-ink" aria-label="Previous project">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button id="lightboxNext" class="grid h-10 w-10 place-items-center rounded border border-white/15 bg-white/8 transition hover:bg-white hover:text-ink" aria-label="Next project">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <button id="lightboxClose" class="grid h-10 w-10 place-items-center rounded border border-white/15 bg-white/8 transition hover:bg-white hover:text-ink" aria-label="Close lightbox">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid min-h-0 grid-cols-1 lg:grid-cols-[1fr_18rem]">
+        <div class="relative min-h-0 bg-black">
+          <div id="mediaShell" class="media-shell h-full w-full p-4 sm:p-6"></div>
+          <div id="mediaStrip" class="absolute bottom-4 left-1/2 flex max-w-[calc(100%-2rem)] -translate-x-1/2 gap-2 overflow-x-auto rounded border border-white/10 bg-black/65 p-2 backdrop-blur"></div>
+        </div>
+        <aside class="hide-scrollbar min-h-0 overflow-y-auto border-l border-white/10 bg-ink p-4">
+          <div class="mb-4 flex items-center justify-between gap-3">
+            <p class="text-xs font-bold uppercase tracking-[.24em] text-neutral-400">Category</p>
+            <span id="lightboxCount" class="text-xs text-neutral-500"></span>
+          </div>
+          <div id="projectThumbs" class="grid gap-3"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast fixed left-1/2 top-1/2 z-[60] rounded bg-white px-6 py-4 text-center text-sm font-bold text-ink shadow-soft">
+    이메일 주소가 복사되었습니다.
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc,
+      increment,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const EMAIL = "chaihk70@gmail.com";
+    const PAGE_SIZE = 12;
+    const RANK_SNAPSHOT_COLLECTION = "rankSnapshots";
+    const IMAGE_VIEW_COLLECTION = "imageViews";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_FIREBASE_APP_ID"
+    };
+
+    const categoryMeta = {
+      PERSONAL: { label: "Personal Works", section: "personal", folder: "images/Personal/" },
+      PROFESSIONAL: { label: "Professional", section: "professional", folder: "images/Professional/" },
+      SKETCH: { label: "Sketch Note", section: "sketch", folder: "images/Sketch/" },
+      DESIGNER: { label: "Designer", section: "designer", folder: "images/Designer/" },
+      RELIGHT: { label: "Re:Lighting", section: "relight", folder: "images/ReLighting/" }
+    };
+
+    const projects = [
+      {
+        id: "personal-diesel-engine",
+        category: "PERSONAL",
+        title: "Diesel Engine",
+        subtitle: "Hard surface prop",
+        publishedAt: "2026-01-20",
+        featured: true,
+        cover: "images/Personal/20260120_Diesel Engine/main.png",
+        media: [
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/main.png", title: "Main" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/final_Main Camera_FullQuality_001.png", title: "Main Camera" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/final_back3_FullQuality_002.png", title: "Back 3" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/final_back1_FullQuality.png", title: "Back 1" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/final_back2_FullQuality.png", title: "Back 2" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/fix11_Main Camera 2.png", title: "Detail" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/final_back4_FullQuality.png", title: "Back 4" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/final_Main Camera 1_FullQuality_001.png", title: "Render 1" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/final_Main Camera 1_FullQuality_002.png", title: "Render 2" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/ezgif.com-animated-gif-maker (7).gif", title: "Turntable" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/maps2.png", title: "Maps" },
+          { type: "image", src: "images/Personal/20260120_Diesel Engine/Ref.png", title: "Reference" }
+        ]
+      },
+      {
+        id: "personal-antique-fireplace",
+        category: "PERSONAL",
+        title: "Antique Fireplace",
+        subtitle: "Environment prop",
+        publishedAt: "2026-03-02",
+        featured: true,
+        cover: "images/Personal/20260302_Antique Fireplace/main.png",
+        media: [
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/main.png", title: "Main" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot_0001_Ultra.png", title: "Shot 1" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot_0002_Ultra.png", title: "Shot 2" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot__(2)0005_Ultra1.jpg", title: "Shot 3" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot_0007_Ultra.jpg", title: "Shot 4" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot__(2)0007_Ultra1.jpg", title: "Shot 5" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot_0008_Ultra.jpg", title: "Shot 6" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot__(2)0006_Ultra1.jpg", title: "Shot 7" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/shot_0006_Ultra.jpg", title: "Shot 8" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/maps.png", title: "Maps" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/Wire.png", title: "Wire" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/ezgif.com-animated-gif-maker (6).gif", title: "Turntable" },
+          { type: "image", src: "images/Personal/20260302_Antique Fireplace/Fireplace_ref.png", title: "Reference" }
+        ]
+      },
+      {
+        id: "personal-military-radio",
+        category: "PERSONAL",
+        title: "Military Radio",
+        subtitle: "Hard surface prop",
+        publishedAt: "2026-03-30",
+        featured: true,
+        cover: "images/Personal/20260330_Military Radio/Main.png",
+        media: [
+          { type: "image", src: "images/Personal/20260330_Military Radio/Main.png", title: "Main" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/H2.png", title: "Hero 2" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/H1.png", title: "Hero 1" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/D_Main Camera 3_FullQuality.png", title: "Detail 1" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/D_Main Camera 2_FullQuality.png", title: "Detail 2" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/D_Main Camera 6_FullQuality.png", title: "Detail 3" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/D_Main Camera 4_FullQuality.png", title: "Detail 4" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/maps2-1.png", title: "Maps" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/wire.png", title: "Wire" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/ezgif.com-animated-gif-maker (5).gif", title: "Turntable" },
+          { type: "image", src: "images/Personal/20260330_Military Radio/Ref.png", title: "Reference" }
+        ]
+      },
+      {
+        id: "personal-post-apocalyptic-knife",
+        category: "PERSONAL",
+        title: "Post-Apocalyptic Knife",
+        subtitle: "Weapon prop",
+        publishedAt: "2026-05-03",
+        featured: true,
+        cover: "images/Personal/20260503_Post-Apocalyptic Knife/Main.png",
+        media: [
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Main.png", title: "Main" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Untitled_Camera 1_FullQuality.png", title: "Camera 1" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Untitled_Camera 3_FullQuality_001.png", title: "Camera 3" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Untitled_Camera 6_FullQuality.png", title: "Camera 6" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Untitled_Camera 7_FullQuality.png", title: "Camera 7" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Untitled_detail1_FullQuality.png", title: "Detail" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Map.png", title: "Map" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Zbush3.png", title: "ZBrush 1" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/Zbush4.png", title: "ZBrush 2" },
+          { type: "image", src: "images/Personal/20260503_Post-Apocalyptic Knife/wire.png", title: "Wire" }
+        ]
+      },
+      {
+        id: "personal-old-chair",
+        category: "PERSONAL",
+        title: "Old Chair",
+        subtitle: "Prop study",
+        publishedAt: "2026-06-25",
+        featured: true,
+        cover: "images/Personal/20260625_Old Chair/Main.png",
+        media: [
+          { type: "image", src: "images/Personal/20260625_Old Chair/Main.png", title: "Main" },
+          { type: "image", src: "images/Personal/20260625_Old Chair/T_7_Main Camera 1_FullQuality.png", title: "Camera 1" },
+          { type: "image", src: "images/Personal/20260625_Old Chair/T_7_Main Camera 3_FullQuality.png", title: "Camera 3" },
+          { type: "image", src: "images/Personal/20260625_Old Chair/T_7_Main Camera 2_FullQuality.png", title: "Camera 2" },
+          { type: "image", src: "images/Personal/20260625_Old Chair/Maps.png", title: "Maps" }
+        ]
+      },
+      {
+        id: "personal-axegun",
+        category: "PERSONAL",
+        title: "Axegun",
+        subtitle: "Concept weapon",
+        publishedAt: "2026-07-10",
+        featured: true,
+        cover: "images/Personal/20260710_Axegun/T_4_Camera 1_FullQuality.png",
+        media: [
+          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 1_FullQuality.png", title: "Camera 1" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 2_FullQuality.png", title: "Camera 2" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 3_FullQuality.png", title: "Camera 3" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 4_FullQuality.png", title: "Camera 4" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 5_FullQuality.png", title: "Camera 5" },
+          { type: "image", src: "images/Personal/20260710_Axegun/Maps.png", title: "Maps" }
+        ]
+      },
+      {
+        id: "sketch-youtube-note",
+        category: "SKETCH",
+        title: "Sketch Note Video",
+        subtitle: "YouTube portfolio",
+        publishedAt: "2026-07-01",
+        featured: false,
+        cover: "",
+        // Replace VIDEO_ID_HERE with the real YouTube video ID.
+        youtubeId: "VIDEO_ID_HERE",
+        media: [
+          { type: "youtube", youtubeId: "VIDEO_ID_HERE", title: "Sketch Note Video" }
+        ]
+      }
+    ];
+
+    const state = {
+      db: null,
+      activeSection: "about",
+      allFilter: "ALL",
+      allRenderIndex: 0,
+      isAppendingAll: false,
+      rankItems: [],
+      lightbox: {
+        open: false,
+        mode: "category",
+        returnSection: null,
+        set: [],
+        projectIndex: 0,
+        mediaIndex: 0,
+        wheelLocked: false
+      }
+    };
+
+    const sectionIds = ["about", "spotlight", "all", "professional", "personal", "sketch", "designer", "relight"];
+    const selectors = {
+      allGrid: document.getElementById("allGrid"),
+      allSentinel: document.getElementById("allSentinel"),
+      allFilters: document.getElementById("allFilters"),
+      rankGrid: document.getElementById("rankGrid"),
+      rankStatus: document.getElementById("rankStatus"),
+      featuredGrid: document.getElementById("featuredGrid"),
+      lightbox: document.getElementById("lightbox"),
+      mediaShell: document.getElementById("mediaShell"),
+      mediaStrip: document.getElementById("mediaStrip"),
+      projectThumbs: document.getElementById("projectThumbs"),
+      lightboxTitle: document.getElementById("lightboxTitle"),
+      lightboxMeta: document.getElementById("lightboxMeta"),
+      lightboxCount: document.getElementById("lightboxCount"),
+      toast: document.getElementById("toast")
+    };
+
+    init();
+
+    function init() {
+      document.getElementById("year").textContent = new Date().getFullYear();
+      normalizeProjectData();
+      setupFirebase();
+      bindGlobalEvents();
+      renderAllStaticSections();
+      setupAllFilters();
+      setupInfiniteScroll();
+      loadRankSnapshot();
+      showSection(getInitialSection(), { scrollTop: true, replaceHash: true });
+    }
+
+    function normalizeProjectData() {
+      projects.forEach((project) => {
+        project.views = Number(project.views || 0);
+        project.media = project.media && project.media.length ? project.media : [{ type: "image", src: project.cover, title: project.title }];
+        project.search = [project.title, project.subtitle, project.company, categoryMeta[project.category]?.label].filter(Boolean).join(" ").toLowerCase();
+      });
+    }
+
+    function setupFirebase() {
+      const configured = firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("YOUR_");
+      if (!configured) {
+        selectors.rankStatus.textContent = "Local snapshot";
+        return;
+      }
+
+      try {
+        const app = initializeApp(firebaseConfig);
+        state.db = getFirestore(app);
+      } catch (error) {
+        console.warn("Firebase init skipped:", error);
+      }
+    }
+
+    function bindGlobalEvents() {
+      document.querySelectorAll("[data-section-link]").forEach((element) => {
+        element.addEventListener("click", () => {
+          const section = element.getAttribute("data-section-link");
+          showSection(section, { scrollTop: true });
+        });
+      });
+
+      document.querySelectorAll("[data-copy-email]").forEach((element) => {
+        element.addEventListener("click", copyEmail);
+      });
+
+      document.querySelectorAll("[data-company-link]").forEach((element) => {
+        element.addEventListener("click", () => openCompanyLightbox(element.getAttribute("data-company-link")));
+      });
+
+      document.getElementById("backToTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+      document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+      document.getElementById("lightboxPrev").addEventListener("click", () => moveLightboxProject(-1));
+      document.getElementById("lightboxNext").addEventListener("click", () => moveLightboxProject(1));
+
+      selectors.lightbox.addEventListener("wheel", (event) => {
+        if (!state.lightbox.open) return;
+        event.preventDefault();
+        if (state.lightbox.wheelLocked) return;
+        state.lightbox.wheelLocked = true;
+        moveLightboxProject(event.deltaY > 0 ? 1 : -1);
+        window.setTimeout(() => {
+          state.lightbox.wheelLocked = false;
+        }, 320);
+      }, { passive: false });
+
+      window.addEventListener("keydown", (event) => {
+        if (!state.lightbox.open) return;
+        if (event.key === "Escape") closeLightbox();
+        if (event.key === "ArrowLeft") moveLightboxProject(-1);
+        if (event.key === "ArrowRight") moveLightboxProject(1);
+      });
+
+      window.addEventListener("hashchange", () => {
+        const section = location.hash.replace("#", "");
+        if (sectionIds.includes(section)) showSection(section, { scrollTop: false, replaceHash: true });
+      });
+    }
+
+    function renderAllStaticSections() {
+      renderCategoryGrid("PERSONAL", "personalGrid");
+      renderCategoryGrid("PROFESSIONAL", "professionalGrid", "professionalEmpty");
+      renderCategoryGrid("SKETCH", "sketchGrid");
+      renderCategoryGrid("DESIGNER", "designerGrid");
+      renderCategoryGrid("RELIGHT", "relightGrid", "relightEmpty");
+      renderFeatured();
+      renderRankGrid(getRankOrderedProjects());
+    }
+
+    function renderCategoryGrid(category, gridId, emptyId) {
+      const grid = document.getElementById(gridId);
+      const items = projects.filter((project) => project.category === category);
+      grid.innerHTML = items.map((project) => createProjectCard(project, { source: "category" })).join("");
+      grid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
+
+      if (emptyId) {
+        document.getElementById(emptyId).classList.toggle("hidden", items.length > 0);
+      }
+    }
+
+    function renderFeatured() {
+      const featured = projects.filter((project) => project.featured).slice(0, 6);
+      selectors.featuredGrid.innerHTML = featured.map((project) => createProjectCard(project, { source: "category" })).join("");
+      selectors.featuredGrid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
+    }
+
+    function renderRankGrid(items) {
+      const ranked = items.slice(0, 12);
+      selectors.rankGrid.innerHTML = ranked.map((project, index) => {
+        const rankClass = index === 0 ? "rank-one" : index < 3 ? "rank-wide" : "";
+        return createProjectCard(project, { source: "spotlight", rank: index + 1, extraClass: rankClass });
+      }).join("");
+      selectors.rankGrid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
+    }
+
+    function setupAllFilters() {
+      const filters = [
+        { id: "ALL", label: "All" },
+        ...Object.entries(categoryMeta).map(([id, meta]) => ({ id, label: meta.label }))
+      ];
+
+      selectors.allFilters.innerHTML = filters.map((filter) => `
+        <button class="rounded border px-3 py-2 text-sm font-semibold transition ${filter.id === state.allFilter ? "border-paper bg-paper text-ink" : "border-white/15 text-neutral-300 hover:bg-white hover:text-ink"}" data-all-filter="${filter.id}">
+          ${escapeHtml(filter.label)}
+        </button>
+      `).join("");
+
+      selectors.allFilters.querySelectorAll("[data-all-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.allFilter = button.getAttribute("data-all-filter");
+          setupAllFilters();
+          resetAllGrid();
+        });
+      });
+
+      resetAllGrid();
+    }
+
+    function setupInfiniteScroll() {
+      const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && state.activeSection === "all") appendAllGrid();
+      }, {
+        root: null,
+        rootMargin: "420px 0px",
+        threshold: 0.01
+      });
+      observer.observe(selectors.allSentinel);
+    }
+
+    function resetAllGrid() {
+      state.allRenderIndex = 0;
+      selectors.allGrid.innerHTML = "";
+      appendAllGrid();
+    }
+
+    function appendAllGrid() {
+      if (state.isAppendingAll) return;
+      state.isAppendingAll = true;
+
+      const source = getAllFilteredProjects();
+      const nextItems = source.slice(state.allRenderIndex, state.allRenderIndex + PAGE_SIZE);
+      const html = nextItems.map((project) => createProjectCard(project, { source: "all" })).join("");
+      selectors.allGrid.insertAdjacentHTML("beforeend", html);
+      selectors.allGrid.querySelectorAll("[data-project-id]:not([data-bound])").forEach(bindCardOpen);
+      state.allRenderIndex += nextItems.length;
+
+      if (state.allRenderIndex >= source.length) {
+        selectors.allSentinel.classList.add("hidden");
+      } else {
+        selectors.allSentinel.classList.remove("hidden");
+      }
+
+      state.isAppendingAll = false;
+    }
+
+    function createProjectCard(project, options = {}) {
+      const rank = options.rank ? `<span class="absolute left-3 top-3 z-10 rounded bg-paper px-3 py-1 text-xs font-black text-ink">#${options.rank}</span>` : "";
+      const badge = getProjectBadge(project);
+      const badgeHtml = badge ? `<span class="absolute right-3 top-3 z-10 rounded bg-white px-3 py-1 text-xs font-black text-ink">${escapeHtml(badge)}</span>` : "";
+      const source = options.source || "category";
+      const poster = getProjectPoster(project);
+      const image = poster
+        ? `<img src="${escapeAttribute(poster)}" alt="${escapeAttribute(project.title)}" class="absolute inset-0 h-full w-full object-contain" loading="lazy" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">`
+        : "";
+
+      return `
+        <article class="portfolio-card ${options.extraClass || ""}" data-project-id="${escapeAttribute(project.id)}" data-open-source="${escapeAttribute(source)}">
+          ${rank}
+          ${badgeHtml}
+          ${image}
+          <div class="${poster ? "hidden" : ""} grid h-full min-h-[18rem] place-items-center bg-panel p-6 text-center text-neutral-400">
+            <div>
+              <i class="fa-regular fa-image mb-4 text-3xl text-neutral-500"></i>
+              <p class="text-sm font-semibold">${escapeHtml(categoryMeta[project.category]?.folder || "")}</p>
+            </div>
+          </div>
+          <div class="card-overlay absolute inset-0"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5">
+            <p class="hover-date mb-2 text-xs font-semibold uppercase tracking-[.22em] text-gold">${formatDate(project.publishedAt)}</p>
+            <h3 class="text-2xl font-black text-white">${escapeHtml(project.title)}</h3>
+            <p class="mt-1 text-sm text-neutral-300">${escapeHtml(project.subtitle || categoryMeta[project.category]?.label || "")}</p>
+          </div>
+        </article>
+      `;
+    }
+
+    function bindCardOpen(card) {
+      card.dataset.bound = "true";
+      card.addEventListener("click", () => {
+        const project = findProject(card.dataset.projectId);
+        const source = card.dataset.openSource || "category";
+        if (!project) return;
+
+        if (source === "all") {
+          openLightbox(getAllFilteredProjects(), project.id, { mode: "all" });
+          return;
+        }
+
+        if (source === "spotlight") {
+          const spotlightSet = state.rankItems.length ? state.rankItems : getRankOrderedProjects();
+          openLightbox(spotlightSet, project.id, { mode: "spotlight" });
+          return;
+        }
+
+        const set = projects.filter((item) => item.category === project.category);
+        openLightbox(set, project.id, { mode: "category" });
+      });
+    }
+
+    function showSection(section, options = {}) {
+      if (!sectionIds.includes(section)) section = "about";
+      state.activeSection = section;
+
+      sectionIds.forEach((id) => {
+        document.getElementById(id).classList.toggle("is-active", id === section);
+      });
+
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.classList.toggle("is-active", link.getAttribute("data-section-link") === section);
+      });
+
+      if (!options.replaceHash && location.hash !== `#${section}`) {
+        history.pushState(null, "", `#${section}`);
+      }
+
+      if (options.scrollTop || section === "about") {
+        window.scrollTo({ top: 0, behavior: options.replaceHash ? "auto" : "smooth" });
+      }
+
+      if (section === "all") {
+        requestAnimationFrame(() => appendAllGrid());
+      }
+    }
+
+    function getInitialSection() {
+      const section = location.hash.replace("#", "");
+      return sectionIds.includes(section) ? section : "about";
+    }
+
+    function openCompanyLightbox(company) {
+      const set = projects.filter((project) => project.category === "PROFESSIONAL" && project.company === company);
+      if (!set.length) {
+        showToast(`${company} 포트폴리오 데이터가 아직 없습니다.`);
+        showSection("about", { scrollTop: true });
+        return;
+      }
+      openLightbox(set, set[0].id, { mode: "company", returnSection: "about" });
+    }
+
+    function openLightbox(set, projectId, options = {}) {
+      state.lightbox.open = true;
+      state.lightbox.mode = options.mode || "category";
+      state.lightbox.returnSection = options.returnSection || null;
+      state.lightbox.set = set.length ? set : projects;
+      state.lightbox.projectIndex = Math.max(0, state.lightbox.set.findIndex((project) => project.id === projectId));
+      state.lightbox.mediaIndex = 0;
+      state.lightbox.wheelLocked = false;
+
+      document.body.classList.add("lightbox-open");
+      selectors.lightbox.classList.remove("hidden");
+      renderLightbox();
+    }
+
+    function renderLightbox() {
+      const project = getCurrentLightboxProject();
+      if (!project) return;
+
+      const media = project.media[state.lightbox.mediaIndex] || project.media[0];
+      selectors.lightboxTitle.textContent = project.title;
+      selectors.lightboxMeta.textContent = `${categoryMeta[project.category]?.label || ""} / ${formatDate(project.publishedAt)}`;
+      selectors.lightboxCount.textContent = `${state.lightbox.projectIndex + 1} / ${state.lightbox.set.length}`;
+      renderMainMedia(project, media);
+      renderMediaStrip(project);
+      renderProjectThumbs();
+      countMediaView(project, media);
+    }
+
+    function renderMainMedia(project, media) {
+      if (media.type === "youtube") {
+        const youtubeId = media.youtubeId || project.youtubeId;
+        if (youtubeId && youtubeId !== "VIDEO_ID_HERE") {
+          selectors.mediaShell.innerHTML = `
+            <div class="relative h-full w-full overflow-hidden rounded-lg bg-black">
+              <iframe src="https://www.youtube.com/embed/${escapeAttribute(youtubeId)}?rel=0&autoplay=1" title="${escapeAttribute(media.title || project.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              <div class="absolute inset-0"></div>
+            </div>
+          `;
+        } else {
+          selectors.mediaShell.innerHTML = `
+            <div class="grid h-full w-full place-items-center rounded-lg border border-white/10 bg-panel p-8 text-center">
+              <div>
+                <i class="fa-brands fa-youtube mb-4 text-5xl text-coral"></i>
+                <p class="text-2xl font-black">YouTube Portfolio</p>
+                <p class="mt-3 max-w-md text-sm leading-6 text-neutral-400">Sketch Note video archive</p>
+              </div>
+            </div>
+          `;
+        }
+        return;
+      }
+
+      selectors.mediaShell.innerHTML = `
+        <div class="grid h-full w-full place-items-center">
+          <img src="${escapeAttribute(media.src)}" alt="${escapeAttribute(media.title || project.title)}" loading="eager" onerror="this.replaceWith(document.createTextNode('이미지를 불러올 수 없습니다.'));">
+        </div>
+      `;
+    }
+
+    function renderMediaStrip(project) {
+      selectors.mediaStrip.innerHTML = project.media.map((media, index) => {
+        const active = index === state.lightbox.mediaIndex ? "border-paper" : "border-white/15 opacity-70 hover:opacity-100";
+        const thumb = media.type === "youtube" ? getYoutubeThumb(media.youtubeId || project.youtubeId) : media.src;
+        return `
+          <button class="h-14 w-20 min-w-20 overflow-hidden rounded border ${active}" data-media-index="${index}" aria-label="${escapeAttribute(media.title || project.title)}">
+            ${thumb ? `<img src="${escapeAttribute(thumb)}" alt="" class="h-full w-full object-contain" loading="lazy" onerror="this.classList.add('hidden');">` : `<span class="grid h-full w-full place-items-center bg-panel"><i class="fa-brands fa-youtube"></i></span>`}
+          </button>
+        `;
+      }).join("");
+
+      selectors.mediaStrip.querySelectorAll("[data-media-index]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.lightbox.mediaIndex = Number(button.dataset.mediaIndex);
+          renderLightbox();
+        });
+      });
+    }
+
+    function renderProjectThumbs() {
+      selectors.projectThumbs.innerHTML = state.lightbox.set.map((project, index) => {
+        const active = index === state.lightbox.projectIndex ? "border-paper bg-white/10" : "border-white/10 bg-white/5 hover:bg-white/10";
+        const poster = getProjectPoster(project);
+        return `
+          <button class="grid grid-cols-[5.5rem_1fr] gap-3 rounded border ${active} p-2 text-left transition" data-lightbox-project-index="${index}">
+            <span class="block h-16 overflow-hidden rounded bg-panel">
+              ${poster ? `<img src="${escapeAttribute(poster)}" alt="" class="h-full w-full object-contain" loading="lazy" onerror="this.classList.add('hidden');">` : `<span class="grid h-full w-full place-items-center text-neutral-500"><i class="fa-regular fa-image"></i></span>`}
+            </span>
+            <span class="min-w-0 self-center">
+              <span class="block truncate text-sm font-bold text-white">${escapeHtml(project.title)}</span>
+              <span class="mt-1 block truncate text-xs text-neutral-400">${escapeHtml(project.subtitle || categoryMeta[project.category]?.label || "")}</span>
+            </span>
+          </button>
+        `;
+      }).join("");
+
+      selectors.projectThumbs.querySelectorAll("[data-lightbox-project-index]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.lightbox.projectIndex = Number(button.dataset.lightboxProjectIndex);
+          state.lightbox.mediaIndex = 0;
+          renderLightbox();
+        });
+      });
+    }
+
+    function moveLightboxProject(direction) {
+      const count = state.lightbox.set.length;
+      if (!count) return;
+      state.lightbox.projectIndex = (state.lightbox.projectIndex + direction + count) % count;
+      state.lightbox.mediaIndex = 0;
+      renderLightbox();
+    }
+
+    function closeLightbox() {
+      selectors.lightbox.classList.add("hidden");
+      document.body.classList.remove("lightbox-open");
+      const returnSection = state.lightbox.returnSection;
+      state.lightbox.open = false;
+      state.lightbox.set = [];
+      state.lightbox.returnSection = null;
+      state.lightbox.wheelLocked = false;
+
+      if (returnSection) {
+        showSection(returnSection, { scrollTop: true });
+      }
+    }
+
+    function getCurrentLightboxProject() {
+      return state.lightbox.set[state.lightbox.projectIndex];
+    }
+
+    async function countMediaView(project, media) {
+      if (!state.db || !media) return;
+      const imageId = getMediaId(project, media);
+      const sessionKey = `viewed:${imageId}`;
+      if (sessionStorage.getItem(sessionKey)) return;
+      sessionStorage.setItem(sessionKey, "1");
+
+      const ref = doc(state.db, IMAGE_VIEW_COLLECTION, imageId);
+      try {
+        await updateDoc(ref, {
+          projectId: project.id,
+          category: project.category,
+          title: project.title,
+          src: media.src || "",
+          youtubeId: media.youtubeId || "",
+          count: increment(1),
+          updatedAt: serverTimestamp()
+        });
+      } catch (error) {
+        try {
+          await setDoc(ref, {
+            projectId: project.id,
+            category: project.category,
+            title: project.title,
+            src: media.src || "",
+            youtubeId: media.youtubeId || "",
+            count: 1,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          });
+        } catch (writeError) {
+          console.warn("View count write skipped:", writeError);
+        }
+      }
+    }
+
+    async function loadRankSnapshot() {
+      if (!state.db) {
+        state.rankItems = getRankOrderedProjects();
+        renderRankGrid(state.rankItems);
+        return;
+      }
+
+      const candidateDates = getRecentDateKeys(10);
+      for (const dateKey of candidateDates) {
+        try {
+          const snapshot = await getDoc(doc(state.db, RANK_SNAPSHOT_COLLECTION, dateKey));
+          if (!snapshot.exists()) continue;
+
+          const data = snapshot.data();
+          applyRankSnapshot(data.items || []);
+          selectors.rankStatus.textContent = `Snapshot ${dateKey}`;
+          return;
+        } catch (error) {
+          console.warn("Rank snapshot load skipped:", error);
+        }
+      }
+
+      state.rankItems = getRankOrderedProjects();
+      renderRankGrid(state.rankItems);
+      selectors.rankStatus.textContent = "Local snapshot";
+    }
+
+    function applyRankSnapshot(items) {
+      const countByProject = new Map();
+      items.forEach((item) => {
+        const projectId = item.projectId || findProjectIdFromMediaId(item.imageId);
+        if (!projectId) return;
+        countByProject.set(projectId, (countByProject.get(projectId) || 0) + Number(item.count || item.views || 0));
+      });
+
+      projects.forEach((project) => {
+        project.views = countByProject.get(project.id) || project.views || 0;
+      });
+
+      state.rankItems = getRankOrderedProjects();
+      renderRankGrid(state.rankItems);
+      renderFeatured();
+      renderAllStaticSections();
+      resetAllGrid();
+    }
+
+    function getRankOrderedProjects() {
+      return [...projects].sort((a, b) => {
+        if ((b.views || 0) !== (a.views || 0)) return (b.views || 0) - (a.views || 0);
+        if (Boolean(b.featured) !== Boolean(a.featured)) return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+        return new Date(b.publishedAt) - new Date(a.publishedAt);
+      });
+    }
+
+    function getAllFilteredProjects() {
+      const source = state.allFilter === "ALL" ? projects : projects.filter((project) => project.category === state.allFilter);
+      return [...source].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    }
+
+    function getProjectBadge(project) {
+      const views = Number(project.views || 0);
+      if (views >= 10) return String(views);
+      if (isNewProject(project.publishedAt)) return "NEW";
+      return "";
+    }
+
+    function isNewProject(dateString) {
+      if (!dateString) return false;
+      const published = new Date(`${dateString}T00:00:00`);
+      const now = new Date();
+      const diff = now.getTime() - published.getTime();
+      return diff <= 30 * 24 * 60 * 60 * 1000;
+    }
+
+    function getProjectPoster(project) {
+      if (project.cover) return project.cover;
+      const firstImage = project.media.find((media) => media.type === "image" && media.src);
+      if (firstImage) return firstImage.src;
+      const firstYoutube = project.media.find((media) => media.type === "youtube" && (media.youtubeId || project.youtubeId));
+      return firstYoutube ? getYoutubeThumb(firstYoutube.youtubeId || project.youtubeId) : "";
+    }
+
+    function getYoutubeThumb(youtubeId) {
+      if (!youtubeId || youtubeId === "VIDEO_ID_HERE") return "";
+      return `https://img.youtube.com/vi/${encodeURIComponent(youtubeId)}/hqdefault.jpg`;
+    }
+
+    function getMediaId(project, media) {
+      const raw = `${project.id}:${media.src || media.youtubeId || media.title || "media"}`;
+      return raw.replace(/[^a-zA-Z0-9_-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 220);
+    }
+
+    function findProjectIdFromMediaId(imageId) {
+      if (!imageId) return "";
+      const project = projects.find((item) => imageId.startsWith(item.id.replace(/[^a-zA-Z0-9_-]+/g, "_")));
+      return project?.id || "";
+    }
+
+    function findProject(projectId) {
+      return projects.find((project) => project.id === projectId);
+    }
+
+    function getRecentDateKeys(days) {
+      const keys = [];
+      const now = new Date();
+      for (let index = 0; index < days; index += 1) {
+        const date = new Date(now);
+        date.setDate(now.getDate() - index);
+        keys.push(date.toISOString().slice(0, 10));
+      }
+      return keys;
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return "";
+      const date = new Date(`${dateString}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return dateString;
+      return new Intl.DateTimeFormat("en", { year: "numeric", month: "short", day: "2-digit" }).format(date);
+    }
+
+    async function copyEmail() {
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(EMAIL);
+        } else {
+          const textarea = document.createElement("textarea");
+          textarea.value = EMAIL;
+          textarea.setAttribute("readonly", "");
+          textarea.style.position = "fixed";
+          textarea.style.opacity = "0";
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand("copy");
+          textarea.remove();
+        }
+        showToast("이메일 주소가 복사되었습니다.");
+      } catch (error) {
+        showToast(EMAIL);
+      }
+    }
+
+    function showToast(message) {
+      selectors.toast.textContent = message;
+      selectors.toast.classList.add("is-visible");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => {
+        selectors.toast.classList.remove("is-visible");
+      }, 1800);
+    }
+
+    function escapeHtml(value = "") {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeAttribute(value = "") {
+      return escapeHtml(value).replace(/`/g, "&#096;");
+    }
+  </script>
+</body>
+</html>
