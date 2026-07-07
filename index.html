@@ -74,6 +74,11 @@
       display: block;
     }
 
+    #about.section-view {
+      padding-top: calc(var(--header-height) + .25rem);
+      padding-bottom: .75rem;
+    }
+
     .glass {
       background: rgba(18, 18, 22, .78);
       border: 1px solid rgba(255, 255, 255, .10);
@@ -156,11 +161,41 @@
       min-height: 22rem;
     }
 
-    .media-shell iframe,
+    .media-shell {
+      overflow: hidden;
+    }
+
     .media-shell img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+
+    .media-shell iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .about-image-card {
+      aspect-ratio: 2075 / 2160;
+      justify-self: center;
+      width: min(100%, 68rem);
+      max-width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+      .about-hero-grid {
+        min-height: calc(100vh - var(--header-height) - .75rem);
+      }
+
+      .about-image-card {
+        justify-self: start;
+        width: min(68rem, calc(100vw - 40rem));
+        max-width: none;
+      }
     }
 
     @media (max-width: 1024px) {
@@ -215,11 +250,11 @@
 
   <main>
     <section id="about" class="section-view is-active">
-      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
-        <div class="flex min-h-[calc(100vh-9rem)] flex-col justify-center">
+      <div class="about-hero-grid mx-auto grid max-w-[94rem] items-center gap-8 px-4 sm:px-6 lg:grid-cols-[35.625rem_minmax(0,1fr)] lg:px-8">
+        <div class="flex flex-col justify-center">
           <p class="mb-5 text-sm font-semibold uppercase tracking-[.32em] text-mint">3D Environment Artist</p>
-          <h1 class="max-w-4xl text-5xl font-black leading-[.95] tracking-normal text-paper sm:text-7xl lg:text-8xl">
-            ChaiHK Portfolio
+          <h1 class="max-w-none whitespace-nowrap text-5xl font-black leading-[.95] tracking-normal text-paper sm:text-7xl lg:text-7xl xl:text-8xl">
+            Jihoon Choi
           </h1>
           <p class="mt-8 max-w-2xl text-lg leading-8 text-neutral-300">
             Hard surface, prop, environment, lighting, and visual development works collected in one portfolio flow.
@@ -238,7 +273,7 @@
           </div>
         </div>
 
-        <div class="relative min-h-[36rem] overflow-hidden rounded-lg border border-white/10 bg-panel shadow-soft">
+        <div class="about-image-card relative overflow-hidden rounded-lg border border-white/10 bg-panel shadow-soft">
           <img src="images/Personal/20260302_Antique Fireplace/main.png" alt="Antique Fireplace portfolio preview" class="absolute inset-0 h-full w-full object-cover" loading="eager">
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
           <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
@@ -389,9 +424,9 @@
       </div>
 
       <div class="grid min-h-0 grid-cols-1 lg:grid-cols-[1fr_18rem]">
-        <div class="relative min-h-0 bg-black">
-          <div id="mediaShell" class="media-shell h-full w-full p-4 sm:p-6"></div>
-          <div id="mediaStrip" class="absolute bottom-4 left-1/2 flex max-w-[calc(100%-2rem)] -translate-x-1/2 gap-2 overflow-x-auto rounded border border-white/10 bg-black/65 p-2 backdrop-blur"></div>
+        <div class="grid min-h-0 grid-rows-[minmax(0,1fr)_auto] bg-black">
+          <div id="mediaShell" class="media-shell h-full min-h-0 w-full p-4 sm:p-6"></div>
+          <div id="mediaStrip" class="mx-auto mb-4 flex max-w-[calc(100%-2rem)] gap-2 overflow-x-auto rounded border border-white/10 bg-black/65 p-2 backdrop-blur"></div>
         </div>
         <aside class="hide-scrollbar min-h-0 overflow-y-auto border-l border-white/10 bg-ink p-4">
           <div class="mb-4 flex items-center justify-between gap-3">
@@ -441,6 +476,7 @@
       DESIGNER: { label: "Designer", section: "designer", folder: "images/Designer/" },
       RELIGHT: { label: "Re:Lighting", section: "relight", folder: "images/ReLighting/" }
     };
+    const CATEGORY_ORDER = ["PERSONAL", "PROFESSIONAL", "SKETCH", "DESIGNER", "RELIGHT"];
 
     const projects = [
       {
@@ -681,7 +717,7 @@
         event.preventDefault();
         if (state.lightbox.wheelLocked) return;
         state.lightbox.wheelLocked = true;
-        moveLightboxProject(event.deltaY > 0 ? 1 : -1);
+        moveLightboxStep(event.deltaY > 0 ? 1 : -1);
         window.setTimeout(() => {
           state.lightbox.wheelLocked = false;
         }, 320);
@@ -836,18 +872,17 @@
         if (!project) return;
 
         if (source === "all") {
-          openLightbox(getAllFilteredProjects(), project.id, { mode: "all" });
+          openLightbox(getCategoryFlowProjects(getAllFilteredProjects()), project.id, { mode: "all" });
           return;
         }
 
         if (source === "spotlight") {
-          const spotlightSet = state.rankItems.length ? state.rankItems : getRankOrderedProjects();
+          const spotlightSet = getCategoryFlowProjects(state.rankItems.length ? state.rankItems : projects);
           openLightbox(spotlightSet, project.id, { mode: "spotlight" });
           return;
         }
 
-        const set = projects.filter((item) => item.category === project.category);
-        openLightbox(set, project.id, { mode: "category" });
+        openLightbox(getCategoryFlowProjects(projects), project.id, { mode: "categoryFlow" });
       });
     }
 
@@ -944,9 +979,7 @@
       }
 
       selectors.mediaShell.innerHTML = `
-        <div class="grid h-full w-full place-items-center">
-          <img src="${escapeAttribute(media.src)}" alt="${escapeAttribute(media.title || project.title)}" loading="eager" onerror="this.replaceWith(document.createTextNode('이미지를 불러올 수 없습니다.'));">
-        </div>
+        <img src="${escapeAttribute(media.src)}" alt="${escapeAttribute(media.title || project.title)}" class="h-full w-full object-contain" loading="eager" onerror="this.replaceWith(document.createTextNode('이미지를 불러올 수 없습니다.'));">
       `;
     }
 
@@ -980,7 +1013,8 @@
             </span>
             <span class="min-w-0 self-center">
               <span class="block truncate text-sm font-bold text-white">${escapeHtml(project.title)}</span>
-              <span class="mt-1 block truncate text-xs text-neutral-400">${escapeHtml(project.subtitle || categoryMeta[project.category]?.label || "")}</span>
+              <span class="mt-1 block truncate text-xs text-neutral-400">${escapeHtml(categoryMeta[project.category]?.label || "")}</span>
+              <span class="mt-1 block truncate text-xs text-neutral-500">${escapeHtml(project.subtitle || "")}</span>
             </span>
           </button>
         `;
@@ -995,12 +1029,40 @@
       });
     }
 
-    function moveLightboxProject(direction) {
+    function moveLightboxProject(direction, mediaPosition = "first") {
       const count = state.lightbox.set.length;
       if (!count) return;
       state.lightbox.projectIndex = (state.lightbox.projectIndex + direction + count) % count;
-      state.lightbox.mediaIndex = 0;
+      const project = getCurrentLightboxProject();
+      state.lightbox.mediaIndex = mediaPosition === "last" ? Math.max((project?.media.length || 1) - 1, 0) : 0;
       renderLightbox();
+    }
+
+    function moveLightboxStep(direction) {
+      const project = getCurrentLightboxProject();
+      if (!project) return;
+
+      const lastMediaIndex = Math.max(project.media.length - 1, 0);
+      if (direction > 0 && state.lightbox.mediaIndex < lastMediaIndex) {
+        state.lightbox.mediaIndex += 1;
+        renderLightbox();
+        return;
+      }
+
+      if (direction < 0 && state.lightbox.mediaIndex > 0) {
+        state.lightbox.mediaIndex -= 1;
+        renderLightbox();
+        return;
+      }
+
+      moveLightboxProject(direction, direction < 0 ? "last" : "first");
+    }
+
+    function getCategoryFlowProjects(sourceProjects = projects) {
+      const sourceIds = new Set(sourceProjects.map((project) => project.id));
+      return CATEGORY_ORDER.flatMap((category) => {
+        return projects.filter((project) => sourceIds.has(project.id) && project.category === category);
+      });
     }
 
     function closeLightbox() {
