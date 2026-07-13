@@ -349,15 +349,14 @@
     }
 
     .works-grid {
-      --works-tile-height: clamp(12rem, 16vw, 21rem);
       width: 100%;
       background: #020305;
     }
 
     .works-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(var(--row-count, 3), minmax(0, 1fr));
       width: 100%;
-      height: var(--works-tile-height);
       gap: .35rem;
       margin-bottom: .35rem;
     }
@@ -417,9 +416,10 @@
     .works-row .portfolio-card {
       min-height: 0;
       min-width: 0;
-      height: 100%;
-      aspect-ratio: auto;
-      flex: var(--poster-flex, 1.7778) 1 0;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      flex: none;
       border: 0;
     }
 
@@ -565,22 +565,15 @@
         display: none;
       }
 
-      .works-grid {
-        --works-tile-height: 18rem;
-      }
-
       .works-row {
-        display: grid;
-        height: auto;
+        grid-template-columns: 1fr;
         gap: .3rem;
         margin-bottom: .3rem;
       }
 
       .works-row .portfolio-card {
         width: 100%;
-        height: var(--works-tile-height);
-        flex: none;
-        aspect-ratio: auto;
+        aspect-ratio: 16 / 9;
       }
 
       .site-header > div {
@@ -1160,7 +1153,7 @@
       for (let index = 0; index < nextItems.length; index += 3) {
         const rowItems = nextItems.slice(index, index + 3);
         rows.push(`
-          <div class="works-row">
+          <div class="works-row" style="--row-count: ${rowItems.length}">
             ${rowItems.map((project) => createProjectCard(project, { source: "all" })).join("")}
           </div>
         `);
@@ -1218,15 +1211,6 @@
 
     function bindCardOpen(card) {
       card.dataset.bound = "true";
-      const image = card.querySelector("img");
-      if (image) {
-        if (image.complete) {
-          setCardAspectFromImage(image);
-        } else {
-          image.addEventListener("load", () => setCardAspectFromImage(image), { once: true });
-        }
-      }
-
       card.addEventListener("click", () => {
         const project = findProject(card.dataset.projectId);
         const source = card.dataset.openSource || "category";
@@ -1245,15 +1229,6 @@
 
         openLightbox(getCategoryFlowProjects(projects), project.id, { mode: "categoryFlow" });
       });
-    }
-
-    function setCardAspectFromImage(image) {
-      if (!image.naturalWidth || !image.naturalHeight) return;
-      const card = image.closest(".portfolio-card");
-      if (!card) return;
-      const aspect = Math.min(3.6, Math.max(.7, image.naturalWidth / image.naturalHeight));
-      card.style.setProperty("--poster-aspect", aspect.toFixed(4));
-      card.style.setProperty("--poster-flex", aspect.toFixed(4));
     }
 
     function showSection(section, options = {}) {
