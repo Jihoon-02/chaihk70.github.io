@@ -384,6 +384,8 @@
 
     .portfolio-card img {
       background: #111116;
+      object-fit: cover;
+      object-position: center;
       transition: transform .7s ease, filter .7s ease, opacity .7s ease;
     }
 
@@ -457,11 +459,336 @@
     }
 
     #lightbox {
-      padding-top: var(--header-height);
+      padding-top: 0;
+    }
+
+    #lightbox:not(.hidden) {
+      display: grid;
+      place-items: center;
     }
 
     .lightbox-layout {
-      height: calc(100vh - var(--header-height));
+      display: grid;
+      grid-template-rows: 2.5rem minmax(0, 1fr);
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      max-width: 100vw;
+      max-height: 100vh;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #020305;
+    }
+
+    .project-topbar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(0, 0, 0, .72);
+      padding: 0 .85rem;
+      color: rgba(255, 255, 255, .52);
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .project-topbar button {
+      justify-self: start;
+      transition: color .2s ease;
+    }
+
+    .project-topbar button:hover {
+      color: #fff;
+    }
+
+    .project-topbar .project-home-link {
+      justify-self: center;
+      color: #27a9ff;
+    }
+
+    .project-topbar .project-top-title {
+      justify-self: end;
+      max-width: 28vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: rgba(255, 255, 255, .24);
+    }
+
+    .project-detail-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(18rem, 18vw, 22rem);
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .project-media-stage {
+      position: relative;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .03), transparent 22%, transparent 78%, rgba(255, 255, 255, .03)),
+        #030405;
+    }
+
+    .project-media-shell {
+      position: absolute;
+      inset: clamp(.75rem, 1.2vw, 1.4rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+    }
+
+    .project-media-shell img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+
+    .project-media-shell .project-main-image {
+      display: block;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      width: auto !important;
+      height: auto !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      object-fit: contain !important;
+      object-position: center !important;
+    }
+
+    .project-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 3;
+      display: grid;
+      width: 2.35rem;
+      height: 2.9rem;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .08);
+      background: rgba(0, 0, 0, .38);
+      color: rgba(255, 255, 255, .48);
+      transform: translateY(-50%);
+      transition: color .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    .project-arrow:hover {
+      border-color: rgba(39, 169, 255, .7);
+      background: rgba(0, 0, 0, .68);
+      color: #fff;
+    }
+
+    .project-arrow.prev {
+      left: .8rem;
+    }
+
+    .project-arrow.next {
+      right: .8rem;
+    }
+
+    .project-info-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+      border-left: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(4, 5, 7, .96);
+      padding: 1rem .75rem .75rem;
+    }
+
+    #lightboxInfo {
+      flex: 0 0 auto;
+    }
+
+    .project-info-kicker {
+      color: #27a9ff;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .project-info-title {
+      margin-top: .55rem;
+      color: #f4f0e8;
+      font-size: 1.25rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .project-info-meta {
+      margin-top: .35rem;
+      color: rgba(255, 255, 255, .38);
+      font-size: .64rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .project-info-copy {
+      margin-top: 1rem;
+      color: rgba(255, 255, 255, .68);
+      font-size: .82rem;
+      line-height: 1.75;
+    }
+
+    .project-info-list {
+      margin-top: 1rem;
+      display: grid;
+      gap: .72rem;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      padding-top: 1rem;
+    }
+
+    .project-info-list dt {
+      color: rgba(255, 255, 255, .36);
+      font-size: .56rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .project-info-list dd {
+      margin-top: .25rem;
+      color: rgba(255, 255, 255, .68);
+      font-size: .72rem;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .project-preview-list {
+      margin-top: 1rem;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: repeat(var(--preview-count, 1), minmax(7rem, 1fr));
+      align-content: stretch;
+      gap: .35rem;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      max-height: none;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding-top: .5rem;
+    }
+
+    .project-preview-list button {
+      position: relative;
+      width: 100%;
+      min-height: 7rem;
+      height: 100%;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, .08);
+      background: #0b0d11;
+      transition: border-color .2s ease, opacity .2s ease;
+    }
+
+    .project-preview-list button.is-active {
+      border-color: #27a9ff;
+    }
+
+    .project-preview-list button:not(.is-active) {
+      opacity: .58;
+    }
+
+    .project-preview-list button:hover {
+      border-color: rgba(39, 169, 255, .72);
+      opacity: 1;
+    }
+
+    .project-preview-list img {
+      width: 100%;
+      height: 100%;
+      background: #05070a;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .zoom-overlay {
+      background: rgba(0, 0, 0, .96);
+    }
+
+    .zoom-toolbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(0, 0, 0, .58);
+      padding: .7rem .9rem;
+      color: rgba(255, 255, 255, .62);
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .zoom-toolbar button {
+      color: rgba(255, 255, 255, .72);
+      transition: color .2s ease;
+    }
+
+    .zoom-toolbar button:hover {
+      color: #fff;
+    }
+
+    .zoom-stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .zoom-stage.is-dragging {
+      cursor: grabbing;
+    }
+
+    .zoom-stage img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      max-width: 92vw;
+      max-height: 88vh;
+      user-select: none;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    @media (max-width: 1024px) {
+      .project-detail-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .project-info-panel {
+        display: flex;
+        max-height: 42vh;
+        border-left: 0;
+        border-top: 1px solid rgba(255, 255, 255, .10);
+      }
+
+      .project-preview-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: none;
+        grid-auto-rows: minmax(7rem, 1fr);
+      }
     }
 
     .toast {
@@ -493,8 +820,10 @@
 
     .media-shell img {
       display: block;
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
       object-fit: contain;
     }
 
@@ -715,37 +1044,31 @@
     </section>
   </main>
 
-  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 text-white" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
-    <div class="lightbox-layout grid grid-rows-[auto_1fr]">
-      <div class="flex items-center justify-between border-b border-white/10 px-4 py-3 sm:px-6">
-        <div class="min-w-0">
-          <p id="lightboxMeta" class="truncate text-xs font-semibold uppercase tracking-[.24em] text-neutral-400"></p>
-          <h2 id="lightboxTitle" class="truncate text-xl font-black sm:text-2xl"></h2>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="lightboxPrev" class="grid h-10 w-10 place-items-center rounded border border-white/15 bg-white/8 transition hover:bg-white hover:text-ink" aria-label="Previous project">
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-          <button id="lightboxNext" class="grid h-10 w-10 place-items-center rounded border border-white/15 bg-white/8 transition hover:bg-white hover:text-ink" aria-label="Next project">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <button id="lightboxClose" class="grid h-10 w-10 place-items-center rounded border border-white/15 bg-white/8 transition hover:bg-white hover:text-ink" aria-label="Close lightbox">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
+  <div id="lightbox" class="fixed inset-0 z-[80] hidden bg-black text-white" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="lightbox-layout">
+      <div class="project-topbar">
+        <button id="lightboxClose" type="button" aria-label="Back to works">← Back</button>
+        <button type="button" class="project-home-link" data-section-link="hero">Home</button>
+        <span id="lightboxCount" class="project-top-title"></span>
       </div>
 
-      <div class="grid min-h-0 grid-cols-1 lg:grid-cols-[1fr_18rem]">
-        <div class="grid min-h-0 grid-rows-[minmax(0,1fr)_auto] bg-black">
-          <div id="mediaShell" class="media-shell h-full min-h-0 w-full p-4 sm:p-6"></div>
-          <div id="mediaStrip" class="mx-auto mb-4 flex max-w-[calc(100%-2rem)] gap-2 overflow-x-auto rounded border border-white/10 bg-black/65 p-2 backdrop-blur"></div>
+      <div class="project-detail-grid">
+        <div class="project-media-stage">
+          <button id="lightboxPrev" class="project-arrow prev" type="button" aria-label="Previous image">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div id="mediaShell" class="media-shell project-media-shell"></div>
+          <button id="lightboxNext" class="project-arrow next" type="button" aria-label="Next image">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
-        <aside class="hide-scrollbar min-h-0 overflow-y-auto border-l border-white/10 bg-ink p-4">
-          <div class="mb-4 flex items-center justify-between gap-3">
-            <p class="text-xs font-bold uppercase tracking-[.24em] text-neutral-400">Category</p>
-            <span id="lightboxCount" class="text-xs text-neutral-500"></span>
-          </div>
-          <div id="projectThumbs" class="grid gap-3"></div>
+
+        <aside class="project-info-panel hide-scrollbar">
+          <p class="project-info-kicker">Info</p>
+          <h2 id="lightboxTitle" class="project-info-title"></h2>
+          <p id="lightboxMeta" class="project-info-meta"></p>
+          <div id="lightboxInfo"></div>
+          <div id="mediaStrip" class="project-preview-list"></div>
         </aside>
       </div>
     </div>
@@ -753,6 +1076,16 @@
 
   <div id="toast" class="toast fixed left-1/2 top-1/2 z-[60] rounded bg-white px-6 py-4 text-center text-sm font-bold text-ink shadow-soft">
     이메일 주소가 복사되었습니다.
+  </div>
+
+  <div id="zoomOverlay" class="zoom-overlay fixed inset-0 z-[100] hidden text-white" role="dialog" aria-modal="true" aria-label="Image zoom viewer">
+    <div class="zoom-toolbar">
+      <span id="zoomTitle">Preview</span>
+      <button id="zoomClose" type="button" aria-label="Close zoom viewer">Close ×</button>
+    </div>
+    <div id="zoomStage" class="zoom-stage">
+      <img id="zoomImage" src="" alt="">
+    </div>
   </div>
 
   <script type="module">
@@ -904,14 +1237,15 @@
         subtitle: "Concept weapon",
         publishedAt: "2026-07-10",
         featured: true,
-        cover: "images/Personal/20260710_Axegun/T_4_Camera 1_FullQuality.png",
+        cover: "images/Personal/20260710_Axegun/Main.png",
         media: [
-          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 1_FullQuality.png", title: "Camera 1" },
-          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 2_FullQuality.png", title: "Camera 2" },
-          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 3_FullQuality.png", title: "Camera 3" },
-          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 4_FullQuality.png", title: "Camera 4" },
-          { type: "image", src: "images/Personal/20260710_Axegun/T_4_Camera 5_FullQuality.png", title: "Camera 5" },
-          { type: "image", src: "images/Personal/20260710_Axegun/Maps.png", title: "Maps" }
+          { type: "image", src: "images/Personal/20260710_Axegun/Main.png", title: "Main" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_1.png", title: "Camera 1" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_2.png", title: "Camera 2" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_3.png", title: "Camera 3" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_4.png", title: "Camera 4" },
+          { type: "image", src: "images/Personal/20260710_Axegun/T_5.png", title: "Camera 5" },
+          { type: "image", src: "images/Personal/20260710_Axegun/Maps2.png", title: "Maps" }
         ]
       },
       {
@@ -921,12 +1255,12 @@
         subtitle: "Sculpt study",
         publishedAt: "2026-07-10",
         featured: true,
-        cover: "images/Personal/20260710_Zbrush Study/T_5_Camera 1_FullQuality_003.png",
+        cover: "images/Personal/20260710_Zbrush Study/T_1.png",
         media: [
-          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_5_Camera 1_FullQuality_003.png", title: "Camera 1" },
-          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_5_Camera 2_FullQuality_003.png", title: "Camera 2" },
-          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_5_Camera 1_FullQuality_002.png", title: "Sculpt 1" },
-          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_5_Camera 2_FullQuality_002.png", title: "Sculpt 2" }
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_1.png", title: "Camera 1" },
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_2.png", title: "Camera 2" },
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_3.png", title: "Sculpt 1" },
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_4.png", title: "Sculpt 2" }
         ]
       },
       {
@@ -960,6 +1294,17 @@
         projectIndex: 0,
         mediaIndex: 0,
         wheelLocked: false
+      },
+      zoom: {
+        open: false,
+        scale: 1,
+        x: 0,
+        y: 0,
+        dragging: false,
+        startX: 0,
+        startY: 0,
+        originX: 0,
+        originY: 0
       }
     };
 
@@ -973,11 +1318,16 @@
       lightbox: document.getElementById("lightbox"),
       mediaShell: document.getElementById("mediaShell"),
       mediaStrip: document.getElementById("mediaStrip"),
-      projectThumbs: document.getElementById("projectThumbs"),
+      lightboxInfo: document.getElementById("lightboxInfo"),
       lightboxTitle: document.getElementById("lightboxTitle"),
       lightboxMeta: document.getElementById("lightboxMeta"),
       lightboxCount: document.getElementById("lightboxCount"),
       worksCount: document.getElementById("worksCount"),
+      zoomOverlay: document.getElementById("zoomOverlay"),
+      zoomStage: document.getElementById("zoomStage"),
+      zoomImage: document.getElementById("zoomImage"),
+      zoomTitle: document.getElementById("zoomTitle"),
+      zoomClose: document.getElementById("zoomClose"),
       toast: document.getElementById("toast")
     };
 
@@ -1045,6 +1395,9 @@
       document.querySelectorAll("[data-section-link]").forEach((element) => {
         element.addEventListener("click", () => {
           const section = element.getAttribute("data-section-link");
+          if (state.zoom.open) {
+            closeZoom();
+          }
           if (state.lightbox.open) {
             closeLightbox({ skipReturn: true });
           }
@@ -1062,11 +1415,20 @@
 
       document.getElementById("backToTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
       document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
-      document.getElementById("lightboxPrev").addEventListener("click", () => moveLightboxProject(-1));
-      document.getElementById("lightboxNext").addEventListener("click", () => moveLightboxProject(1));
+      document.getElementById("lightboxPrev").addEventListener("click", () => moveLightboxStep(-1));
+      document.getElementById("lightboxNext").addEventListener("click", () => moveLightboxStep(1));
+      selectors.zoomClose.addEventListener("click", closeZoom);
+
+      selectors.mediaStrip.addEventListener("wheel", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        selectors.mediaStrip.scrollTop += event.deltaY;
+      }, { passive: false });
 
       selectors.lightbox.addEventListener("wheel", (event) => {
         if (!state.lightbox.open) return;
+        if (state.zoom.open) return;
+        if (event.target.closest("#mediaStrip")) return;
         event.preventDefault();
         if (state.lightbox.wheelLocked) return;
         state.lightbox.wheelLocked = true;
@@ -1077,11 +1439,20 @@
       }, { passive: false });
 
       window.addEventListener("keydown", (event) => {
+        if (state.zoom.open) {
+          if (event.key === "Escape") closeZoom();
+          return;
+        }
         if (!state.lightbox.open) return;
         if (event.key === "Escape") closeLightbox();
-        if (event.key === "ArrowLeft") moveLightboxProject(-1);
-        if (event.key === "ArrowRight") moveLightboxProject(1);
+        if (event.key === "ArrowLeft") moveLightboxStep(-1);
+        if (event.key === "ArrowRight") moveLightboxStep(1);
       });
+
+      selectors.zoomStage.addEventListener("wheel", handleZoomWheel, { passive: false });
+      selectors.zoomStage.addEventListener("pointerdown", startZoomDrag);
+      window.addEventListener("pointermove", moveZoomDrag);
+      window.addEventListener("pointerup", endZoomDrag);
 
       window.addEventListener("hashchange", () => {
         const section = location.hash.replace("#", "");
@@ -1215,18 +1586,7 @@
         const source = card.dataset.openSource || "category";
         if (!project) return;
 
-        if (source === "all") {
-          openLightbox(getCategoryFlowProjects(getAllFilteredProjects()), project.id, { mode: "all" });
-          return;
-        }
-
-        if (source === "spotlight") {
-          const spotlightSet = getCategoryFlowProjects(state.rankItems.length ? state.rankItems : projects);
-          openLightbox(spotlightSet, project.id, { mode: "spotlight" });
-          return;
-        }
-
-        openLightbox(getCategoryFlowProjects(projects), project.id, { mode: "categoryFlow" });
+        openLightbox([project], project.id, { mode: source });
       });
     }
 
@@ -1292,10 +1652,10 @@
       const media = project.media[state.lightbox.mediaIndex] || project.media[0];
       selectors.lightboxTitle.textContent = project.title;
       selectors.lightboxMeta.textContent = `${categoryMeta[project.category]?.label || ""} / ${formatDate(project.publishedAt)}`;
-      selectors.lightboxCount.textContent = `${state.lightbox.projectIndex + 1} / ${state.lightbox.set.length}`;
+      selectors.lightboxCount.textContent = `${project.title} · ${state.lightbox.mediaIndex + 1} / ${project.media.length}`;
       renderMainMedia(project, media);
+      renderProjectInfo(project, media);
       renderMediaStrip(project);
-      renderProjectThumbs();
       countMediaView(project, media);
     }
 
@@ -1304,14 +1664,14 @@
         const youtubeId = media.youtubeId || project.youtubeId;
         if (youtubeId && youtubeId !== "VIDEO_ID_HERE") {
           selectors.mediaShell.innerHTML = `
-            <div class="relative h-full w-full overflow-hidden rounded-lg bg-black">
+            <div class="relative h-full w-full overflow-hidden bg-black">
               <iframe src="https://www.youtube.com/embed/${escapeAttribute(youtubeId)}?rel=0&autoplay=1" title="${escapeAttribute(media.title || project.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
               <div class="absolute inset-0"></div>
             </div>
           `;
         } else {
           selectors.mediaShell.innerHTML = `
-            <div class="grid h-full w-full place-items-center rounded-lg border border-white/10 bg-panel p-8 text-center">
+            <div class="grid h-full w-full place-items-center border border-white/10 bg-panel p-8 text-center">
               <div>
                 <i class="fa-brands fa-youtube mb-4 text-5xl text-coral"></i>
                 <p class="text-2xl font-black">YouTube Portfolio</p>
@@ -1324,17 +1684,50 @@
       }
 
       selectors.mediaShell.innerHTML = `
-        <img src="${escapeAttribute(media.src)}" alt="${escapeAttribute(media.title || project.title)}" class="h-full w-full object-contain" loading="eager" onerror="this.replaceWith(document.createTextNode('이미지를 불러올 수 없습니다.'));">
+        <img src="${escapeAttribute(media.src)}" alt="${escapeAttribute(media.title || project.title)}" class="project-main-image" data-zoom-src="${escapeAttribute(media.src)}" data-zoom-title="${escapeAttribute(media.title || project.title)}" loading="eager" onerror="this.replaceWith(document.createTextNode('이미지를 불러올 수 없습니다.'));">
+      `;
+
+      selectors.mediaShell.querySelector("[data-zoom-src]")?.addEventListener("click", (event) => {
+        openZoom(event.currentTarget.dataset.zoomSrc, event.currentTarget.dataset.zoomTitle || project.title);
+      });
+    }
+
+    function renderProjectInfo(project, media) {
+      const category = categoryMeta[project.category]?.label || "Portfolio";
+      const mediaTitle = media?.title || "Main";
+      selectors.lightboxInfo.innerHTML = `
+        <p class="project-info-copy">
+          ${escapeHtml(project.subtitle || category)} archive focused on silhouette, material, lighting, and presentation clarity.
+        </p>
+        <dl class="project-info-list">
+          <div>
+            <dt>Current</dt>
+            <dd>${escapeHtml(mediaTitle)}</dd>
+          </div>
+          <div>
+            <dt>Role</dt>
+            <dd>3D Environment / Prop Artist</dd>
+          </div>
+          <div>
+            <dt>Scope</dt>
+            <dd>${escapeHtml(project.subtitle || "Modeling · Material · Lighting · Presentation")}</dd>
+          </div>
+          <div>
+            <dt>Published</dt>
+            <dd>${formatDate(project.publishedAt)}</dd>
+          </div>
+        </dl>
       `;
     }
 
     function renderMediaStrip(project) {
+      selectors.mediaStrip.style.setProperty("--preview-count", Math.max(project.media.length, 1));
       selectors.mediaStrip.innerHTML = project.media.map((media, index) => {
-        const active = index === state.lightbox.mediaIndex ? "border-paper" : "border-white/15 opacity-70 hover:opacity-100";
+        const active = index === state.lightbox.mediaIndex ? "is-active" : "";
         const thumb = media.type === "youtube" ? getYoutubeThumb(media.youtubeId || project.youtubeId) : media.src;
         return `
-          <button class="h-14 w-20 min-w-20 overflow-hidden rounded border ${active}" data-media-index="${index}" aria-label="${escapeAttribute(media.title || project.title)}">
-            ${thumb ? `<img src="${escapeAttribute(thumb)}" alt="" class="h-full w-full object-contain" loading="lazy" onerror="this.classList.add('hidden');">` : `<span class="grid h-full w-full place-items-center bg-panel"><i class="fa-brands fa-youtube"></i></span>`}
+          <button class="${active}" data-media-index="${index}" aria-label="${escapeAttribute(media.title || project.title)}">
+            ${thumb ? `<img src="${escapeAttribute(thumb)}" alt="" loading="lazy" onerror="this.classList.add('hidden');">` : `<span class="grid h-full w-full place-items-center bg-panel"><i class="fa-brands fa-youtube"></i></span>`}
           </button>
         `;
       }).join("");
@@ -1345,33 +1738,98 @@
           renderLightbox();
         });
       });
+
+      selectors.mediaStrip.querySelector(".is-active")?.scrollIntoView({ block: "nearest" });
     }
 
-    function renderProjectThumbs() {
-      selectors.projectThumbs.innerHTML = state.lightbox.set.map((project, index) => {
-        const active = index === state.lightbox.projectIndex ? "border-paper bg-white/10" : "border-white/10 bg-white/5 hover:bg-white/10";
-        const poster = getProjectPoster(project);
-        return `
-          <button class="grid grid-cols-[5.5rem_1fr] gap-3 rounded border ${active} p-2 text-left transition" data-lightbox-project-index="${index}">
-            <span class="block h-16 overflow-hidden rounded bg-panel">
-              ${poster ? `<img src="${escapeAttribute(poster)}" alt="" class="h-full w-full object-contain" loading="lazy" onerror="this.classList.add('hidden');">` : `<span class="grid h-full w-full place-items-center text-neutral-500"><i class="fa-regular fa-image"></i></span>`}
-            </span>
-            <span class="min-w-0 self-center">
-              <span class="block truncate text-sm font-bold text-white">${escapeHtml(project.title)}</span>
-              <span class="mt-1 block truncate text-xs text-neutral-400">${escapeHtml(categoryMeta[project.category]?.label || "")}</span>
-              <span class="mt-1 block truncate text-xs text-neutral-500">${escapeHtml(project.subtitle || "")}</span>
-            </span>
-          </button>
-        `;
-      }).join("");
+    function openZoom(src, title = "Preview") {
+      if (!src) return;
+      state.zoom.open = true;
+      state.zoom.scale = 1;
+      state.zoom.x = 0;
+      state.zoom.y = 0;
+      state.zoom.dragging = false;
+      selectors.zoomTitle.textContent = title;
+      selectors.zoomImage.src = src;
+      selectors.zoomImage.alt = title;
+      selectors.zoomOverlay.classList.remove("hidden");
+      selectors.zoomStage.classList.remove("is-dragging");
+      updateZoomTransform();
+    }
 
-      selectors.projectThumbs.querySelectorAll("[data-lightbox-project-index]").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.lightbox.projectIndex = Number(button.dataset.lightboxProjectIndex);
-          state.lightbox.mediaIndex = 0;
-          renderLightbox();
-        });
-      });
+    function closeZoom() {
+      if (!state.zoom.open) return;
+      state.zoom.open = false;
+      state.zoom.dragging = false;
+      selectors.zoomOverlay.classList.add("hidden");
+      selectors.zoomStage.classList.remove("is-dragging");
+      selectors.zoomImage.removeAttribute("src");
+    }
+
+    function handleZoomWheel(event) {
+      if (!state.zoom.open) return;
+      event.preventDefault();
+      event.stopPropagation();
+
+      const previousScale = state.zoom.scale;
+      const nextScale = clamp(previousScale * (event.deltaY < 0 ? 1.14 : .88), 1, 6);
+      if (nextScale === previousScale) return;
+
+      const rect = selectors.zoomStage.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const pointerOffsetX = event.clientX - centerX - state.zoom.x;
+      const pointerOffsetY = event.clientY - centerY - state.zoom.y;
+      const ratio = nextScale / previousScale;
+
+      state.zoom.x -= pointerOffsetX * (ratio - 1);
+      state.zoom.y -= pointerOffsetY * (ratio - 1);
+      state.zoom.scale = nextScale;
+
+      if (state.zoom.scale === 1) {
+        state.zoom.x = 0;
+        state.zoom.y = 0;
+      }
+
+      updateZoomTransform();
+    }
+
+    function startZoomDrag(event) {
+      if (!state.zoom.open) return;
+      event.preventDefault();
+      state.zoom.dragging = true;
+      state.zoom.startX = event.clientX;
+      state.zoom.startY = event.clientY;
+      state.zoom.originX = state.zoom.x;
+      state.zoom.originY = state.zoom.y;
+      selectors.zoomStage.classList.add("is-dragging");
+      try {
+        selectors.zoomStage.setPointerCapture(event.pointerId);
+      } catch (error) {
+        // Pointer capture can fail for synthetic events; dragging still works through window listeners.
+      }
+    }
+
+    function moveZoomDrag(event) {
+      if (!state.zoom.open || !state.zoom.dragging) return;
+      event.preventDefault();
+      state.zoom.x = state.zoom.originX + event.clientX - state.zoom.startX;
+      state.zoom.y = state.zoom.originY + event.clientY - state.zoom.startY;
+      updateZoomTransform();
+    }
+
+    function endZoomDrag() {
+      if (!state.zoom.dragging) return;
+      state.zoom.dragging = false;
+      selectors.zoomStage.classList.remove("is-dragging");
+    }
+
+    function updateZoomTransform() {
+      selectors.zoomImage.style.transform = `translate(calc(-50% + ${state.zoom.x}px), calc(-50% + ${state.zoom.y}px)) scale(${state.zoom.scale})`;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
     }
 
     function moveLightboxProject(direction, mediaPosition = "first") {
@@ -1387,20 +1845,10 @@
       const project = getCurrentLightboxProject();
       if (!project) return;
 
-      const lastMediaIndex = Math.max(project.media.length - 1, 0);
-      if (direction > 0 && state.lightbox.mediaIndex < lastMediaIndex) {
-        state.lightbox.mediaIndex += 1;
-        renderLightbox();
-        return;
-      }
-
-      if (direction < 0 && state.lightbox.mediaIndex > 0) {
-        state.lightbox.mediaIndex -= 1;
-        renderLightbox();
-        return;
-      }
-
-      moveLightboxProject(direction, direction < 0 ? "last" : "first");
+      const count = project.media.length;
+      if (!count) return;
+      state.lightbox.mediaIndex = (state.lightbox.mediaIndex + direction + count) % count;
+      renderLightbox();
     }
 
     function getCategoryFlowProjects(sourceProjects = projects) {
@@ -1411,6 +1859,9 @@
     }
 
     function closeLightbox(options = {}) {
+      if (state.zoom.open) {
+        closeZoom();
+      }
       selectors.lightbox.classList.add("hidden");
       document.body.classList.remove("lightbox-open");
       const returnSection = state.lightbox.returnSection;
