@@ -8,7 +8,10 @@
   <title>Jihoon Choi Portfolio</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <script>
@@ -16,7 +19,7 @@
       theme: {
         extend: {
           fontFamily: {
-            display: ["Inter", "Pretendard", "system-ui", "sans-serif"],
+            display: ["Barlow Condensed", "Impact", "Arial Narrow", "Inter", "Pretendard", "system-ui", "sans-serif"],
             body: ["Inter", "Pretendard", "system-ui", "sans-serif"]
           },
           colors: {
@@ -52,9 +55,7 @@
 
     body {
       min-height: 100vh;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(132, 220, 198, .10), transparent 28rem),
-        linear-gradient(135deg, #0b0b0f 0%, #171216 42%, #101418 100%);
+      background: #020305;
       overflow-x: hidden;
     }
 
@@ -64,19 +65,305 @@
     }
 
     .section-view {
-      display: none;
-      min-height: calc(100vh - var(--header-height));
-      padding-top: calc(var(--header-height) + 2rem);
-      padding-bottom: 4rem;
+      display: block;
+      min-height: 0;
+      scroll-margin-top: var(--header-height);
+      padding-top: calc(var(--header-height) + 2.5rem);
+      padding-bottom: 5rem;
     }
 
     .section-view.is-active {
       display: block;
     }
 
-    #about.section-view {
-      padding-top: calc(var(--header-height) + .25rem);
-      padding-bottom: .75rem;
+    #hero.section-view {
+      position: relative;
+      min-height: 100vh;
+      padding: 0;
+      overflow: hidden;
+      scroll-margin-top: 0;
+      background: #020305;
+    }
+
+    .site-header {
+      color: rgba(255, 255, 255, .72);
+      pointer-events: none;
+    }
+
+    .site-header > div,
+    .site-header a,
+    .site-header button {
+      pointer-events: auto;
+    }
+
+    .site-brand {
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .76);
+      text-shadow: 0 2px 18px rgba(0, 0, 0, .62);
+      transition: color .2s ease;
+    }
+
+    .site-brand:hover {
+      color: #fff;
+    }
+
+    .nav-link {
+      position: relative;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      padding: .45rem 0;
+      font-size: .62rem;
+      font-weight: 800;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .62);
+      text-shadow: 0 2px 18px rgba(0, 0, 0, .62);
+      transition: color .2s ease;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: .08rem;
+      width: 0;
+      height: 1px;
+      background: #27a9ff;
+      opacity: 0;
+      transition: width .2s ease, opacity .2s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.is-active {
+      color: #fff;
+      background: transparent;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.is-active::after {
+      width: calc(100% - .26em);
+      opacity: 1;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: #06080a;
+    }
+
+    .hero-media img,
+    .hero-media video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, .82) 0%, rgba(0, 0, 0, .28) 46%, rgba(0, 0, 0, .56) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, .34) 0%, rgba(0, 0, 0, .16) 44%, rgba(0, 0, 0, .92) 100%);
+    }
+
+    .hero-outline {
+      position: absolute;
+      z-index: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, .045);
+      font-size: clamp(9rem, 17vw, 24rem);
+      font-weight: 950;
+      line-height: .78;
+      letter-spacing: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-outline.left {
+      left: -1.5vw;
+      top: 30%;
+    }
+
+    .hero-outline.right {
+      right: -1vw;
+      bottom: 12%;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 1.5rem 5.6rem;
+    }
+
+    .hero-kicker {
+      color: #27a9ff;
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      margin-top: .55rem;
+      font-family: "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
+      color: #f4f0e8;
+      font-size: clamp(4.6rem, 9vw, 9.4rem);
+      font-weight: 950;
+      line-height: .86;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    .hero-title span {
+      color: #27a9ff;
+    }
+
+    .hero-signature {
+      margin-top: 1rem;
+      color: rgba(255, 255, 255, .34);
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+
+    .hero-tools {
+      position: absolute;
+      z-index: 2;
+      left: 1.5rem;
+      right: 1.5rem;
+      bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      border-top: 1px solid rgba(255, 255, 255, .09);
+      padding-top: .9rem;
+      overflow-x: auto;
+    }
+
+    .hero-tools span {
+      flex: 0 0 auto;
+      border: 1px solid rgba(39, 169, 255, .28);
+      background: rgba(3, 10, 16, .42);
+      padding: .46rem .82rem;
+      color: rgba(39, 169, 255, .9);
+      font-size: .6rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .hero-tools span:nth-child(n+5) {
+      border-color: rgba(255, 255, 255, .12);
+      color: rgba(255, 255, 255, .45);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1.45rem;
+      z-index: 3;
+      color: rgba(255, 255, 255, .32);
+      font-size: .58rem;
+      font-weight: 800;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .editorial-section {
+      border-top: 1px solid rgba(255, 255, 255, .10);
+    }
+
+    .works-section {
+      min-height: 100vh;
+      padding-top: calc(var(--header-height) + 1rem);
+      padding-bottom: 0;
+      background: #020305;
+    }
+
+    .works-frame {
+      width: 100%;
+    }
+
+    .works-head {
+      display: grid;
+      grid-template-columns: auto minmax(5rem, 1fr) auto;
+      align-items: end;
+      gap: 1.8rem;
+      padding: 0 clamp(1rem, 2vw, 2.5rem) 1.6rem;
+    }
+
+    .works-title {
+      font-family: "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
+      color: #f4f0e8;
+      font-size: clamp(7.4rem, 8.9vw, 11.5rem);
+      font-weight: 900;
+      line-height: .66;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .works-title span {
+      color: #27a9ff;
+    }
+
+    .works-head-line {
+      height: 1px;
+      margin-bottom: 2.4rem;
+      background: linear-gradient(90deg, rgba(39, 169, 255, .42), rgba(39, 169, 255, .05) 72%, transparent);
+    }
+
+    .works-count {
+      display: grid;
+      gap: .45rem;
+      margin-bottom: 1.8rem;
+      color: rgba(255, 255, 255, .34);
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .24em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .works-count strong {
+      color: rgba(255, 255, 255, .5);
+      font-weight: 900;
+    }
+
+    .works-count i {
+      color: #cf3c24;
+      font-style: normal;
+    }
+
+    .works-grid {
+      --works-tile-height: clamp(12rem, 16vw, 21rem);
+      width: 100%;
+      background: #020305;
+    }
+
+    .works-row {
+      display: flex;
+      width: 100%;
+      height: var(--works-tile-height);
+      gap: .35rem;
+      margin-bottom: .35rem;
+    }
+
+    .works-row:last-child {
+      margin-bottom: 0;
     }
 
     .glass {
@@ -88,26 +375,28 @@
     .portfolio-card {
       position: relative;
       overflow: hidden;
-      border-radius: 8px;
-      background: #18181d;
+      border-radius: 0;
+      background: #05070a;
       border: 1px solid rgba(255, 255, 255, .10);
-      min-height: 18rem;
+      min-height: 26rem;
       cursor: pointer;
       transform: translateZ(0);
     }
 
     .portfolio-card img {
       background: #111116;
-      transition: transform .45s ease, filter .45s ease;
+      transition: transform .7s ease, filter .7s ease, opacity .7s ease;
     }
 
     .portfolio-card:hover img {
-      transform: scale(1);
+      transform: scale(1.025);
       filter: saturate(1.08) contrast(1.06);
     }
 
     .portfolio-card .card-overlay {
-      background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, .78) 100%);
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .10) 0%, transparent 42%, rgba(0, 0, 0, .88) 100%),
+        linear-gradient(90deg, rgba(0, 0, 0, .28), transparent 58%);
     }
 
     .portfolio-card .hover-date {
@@ -121,9 +410,38 @@
       transform: translateY(0);
     }
 
-    .nav-link.is-active {
-      color: #0b0b0f;
-      background: #f4f0e8;
+    .portfolio-card .card-copy {
+      transition: opacity .28s ease, transform .28s ease;
+    }
+
+    .works-row .portfolio-card {
+      min-height: 0;
+      min-width: 0;
+      height: 100%;
+      aspect-ratio: auto;
+      flex: var(--poster-flex, 1.7778) 1 0;
+      border: 0;
+    }
+
+    .works-row .portfolio-card .card-copy,
+    .works-row .portfolio-card > span {
+      opacity: 0;
+      transform: translateY(.6rem);
+    }
+
+    .works-row .portfolio-card:hover .card-copy,
+    .works-row .portfolio-card:hover > span {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .works-row .portfolio-card .card-overlay {
+      opacity: .48;
+      transition: opacity .28s ease;
+    }
+
+    .works-row .portfolio-card:hover .card-overlay {
+      opacity: 1;
     }
 
     .hide-scrollbar {
@@ -225,189 +543,182 @@
       }
 
       .portfolio-card {
-        min-height: 16rem;
+        min-height: 22rem;
+      }
+
+      .works-section {
+        padding-top: calc(var(--header-height) + 1.25rem);
+      }
+
+      .works-head {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .works-title {
+        font-size: clamp(5.2rem, 25vw, 7.4rem);
+      }
+
+      .works-head-line,
+      .works-count {
+        display: none;
+      }
+
+      .works-grid {
+        --works-tile-height: 18rem;
+      }
+
+      .works-row {
+        display: grid;
+        height: auto;
+        gap: .3rem;
+        margin-bottom: .3rem;
+      }
+
+      .works-row .portfolio-card {
+        width: 100%;
+        height: var(--works-tile-height);
+        flex: none;
+        aspect-ratio: auto;
+      }
+
+      .site-header > div {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .site-brand {
+        max-width: 9rem;
+        font-size: .58rem;
+        letter-spacing: .22em;
+      }
+
+      .nav-link {
+        font-size: .56rem;
+        letter-spacing: .18em;
+      }
+
+      .hero-copy {
+        padding: 0 1rem 5.25rem;
+      }
+
+      .hero-title {
+        font-size: clamp(4.1rem, 20vw, 6.5rem);
+      }
+
+      .hero-outline {
+        display: none;
+      }
+
+      .hero-tools {
+        left: 1rem;
+        right: 1rem;
+      }
+
+      .hero-scroll {
+        display: none;
       }
     }
   </style>
 </head>
 
 <body class="font-body text-neutral-100 antialiased">
-  <header class="fixed inset-x-0 top-0 z-[60] border-b border-white/10 bg-ink/82 backdrop-blur-xl">
-    <div class="mx-auto flex h-[var(--header-height)] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-      <a href="#about" class="flex min-w-fit items-center gap-3" data-section-link="about" aria-label="ChaiHK home">
-        <span class="grid h-9 w-9 place-items-center rounded border border-white/15 bg-white/8 text-sm font-black tracking-tight">HK</span>
-        <span class="hidden text-sm font-semibold tracking-[.26em] text-neutral-200 sm:inline">CHAIHK70</span>
+  <header class="site-header fixed inset-x-0 top-0 z-[60]">
+    <div class="flex h-[var(--header-height)] items-center justify-between gap-5 px-6 sm:px-8 lg:px-10">
+      <a href="#hero" class="site-brand min-w-fit" data-section-link="hero" aria-label="Jihoon Choi home">
+        JIHOON CHOI
       </a>
 
-      <nav class="hide-scrollbar flex flex-1 items-center gap-2 overflow-x-auto text-sm" aria-label="Primary navigation">
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="about">About</button>
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="spotlight">Spotlight</button>
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="all">ALL Portfolio</button>
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="professional">Professional</button>
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="personal">Personal Works</button>
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="sketch">Sketch Note</button>
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="designer">Designer</button>
-        <button class="nav-link rounded px-3 py-2 font-medium text-neutral-300 transition hover:bg-white/10 hover:text-white" data-section-link="relight">Re:Lighting</button>
+      <nav class="hide-scrollbar flex items-center gap-5 overflow-x-auto sm:gap-8" aria-label="Primary navigation">
+        <button class="nav-link" data-section-link="works">Works</button>
+        <button class="nav-link" data-section-link="project">Project</button>
+        <button class="nav-link" data-section-link="about">About</button>
       </nav>
-
-      <button class="grid h-10 w-10 min-w-10 place-items-center rounded border border-white/15 bg-white/8 text-neutral-100 transition hover:bg-white hover:text-ink" data-copy-email aria-label="Copy email">
-        <i class="fa-regular fa-envelope"></i>
-      </button>
     </div>
   </header>
 
   <main>
-    <section id="about" class="section-view is-active">
-      <div class="about-hero-grid mx-auto grid max-w-[94rem] items-center gap-8 px-4 sm:px-6 lg:grid-cols-[35.625rem_minmax(0,1fr)] lg:px-8">
-        <div class="flex flex-col justify-center">
-          <p class="mb-5 text-sm font-semibold uppercase tracking-[.32em] text-mint">3D Environment Artist</p>
-          <h1 class="max-w-none whitespace-nowrap text-5xl font-black leading-[.95] tracking-normal text-paper sm:text-7xl lg:text-7xl xl:text-8xl">
-            Jihoon Choi
-          </h1>
-          <p class="mt-8 max-w-2xl text-lg leading-8 text-neutral-300">
-            Hard surface, prop, environment, lighting, and visual development works collected in one portfolio flow.
+    <section id="hero" class="section-view is-active">
+      <div class="hero-media" aria-hidden="true">
+        <img src="images/Personal/20260302_Antique Fireplace/main.png" alt="">
+        <video id="heroVideo" autoplay muted loop playsinline preload="metadata" poster="images/Personal/20260302_Antique Fireplace/main.png">
+          <!-- Add hero video sources here later. Example: <source src="videos/hero.mp4" type="video/mp4"> -->
+        </video>
+      </div>
+
+      <div class="hero-outline left">ENV</div>
+      <div class="hero-outline right">ARTIST</div>
+
+      <div class="hero-copy">
+        <p class="hero-kicker">3D Background Artist · Environment</p>
+        <h1 class="hero-title">Back<br>Ground<br><span>Artist</span></h1>
+        <p class="hero-signature">— Jihoon Choi</p>
+      </div>
+
+      <div class="hero-tools hide-scrollbar" aria-label="Main tools">
+        <span>UE5</span>
+        <span>3DS MAX</span>
+        <span>ZBRUSH</span>
+        <span>SUBSTANCE</span>
+        <span>MARMOSET</span>
+        <span>RIZOM UV</span>
+        <span>UNITY</span>
+      </div>
+
+      <div class="hero-scroll">Scroll</div>
+    </section>
+
+    <section id="works" class="section-view works-section">
+      <div class="works-frame">
+        <div class="works-head">
+          <h2 class="works-title">WOR<span>KS</span></h2>
+          <div class="works-head-line" aria-hidden="true"></div>
+          <div class="works-count">
+            <strong id="worksCount">0 Projects</strong>
+            <span><i>·</i> Click — Detail</span>
+          </div>
+        </div>
+        <div id="allGrid" class="works-grid"></div>
+        <div id="allSentinel" class="h-12"></div>
+      </div>
+    </section>
+
+    <section id="project" class="section-view editorial-section">
+      <div class="mx-auto min-h-[32rem] max-w-7xl px-4 sm:px-6 lg:px-8"></div>
+    </section>
+
+    <section id="about" class="section-view editorial-section">
+      <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-8">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[.32em] text-coral">About</p>
+          <h2 class="mt-3 text-5xl font-black leading-none text-paper sm:text-7xl">Jihoon Choi</h2>
+        </div>
+        <div class="space-y-8 text-neutral-300">
+          <p class="text-xl leading-9">
+            I build 3D environments and props with attention to material, silhouette, mood, and readable detail.
           </p>
-
-          <div class="mt-9 flex flex-wrap gap-3">
-            <button class="rounded bg-paper px-5 py-3 text-sm font-bold text-ink transition hover:bg-white" data-section-link="personal">
-              Works
-            </button>
-            <button class="rounded border border-white/18 px-5 py-3 text-sm font-bold text-white transition hover:bg-white hover:text-ink" data-section-link="professional">
-              Professional
-            </button>
-            <button class="rounded border border-white/18 px-5 py-3 text-sm font-bold text-white transition hover:bg-white hover:text-ink" data-copy-email>
-              Email <i class="fa-regular fa-envelope ml-1"></i>
-            </button>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="glass rounded-lg p-5">
+              <p class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-500">Tools</p>
+              <p class="mt-3 leading-7">3ds Max · ZBrush · Substance Painter · Marmoset · UE5</p>
+            </div>
+            <div class="glass rounded-lg p-5">
+              <p class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-500">Contact</p>
+              <button class="mt-3 font-semibold text-white transition hover:text-mint" data-copy-email>
+                chaihk70@gmail.com <i class="fa-regular fa-envelope ml-1"></i>
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div class="about-image-card relative overflow-hidden rounded-lg border border-white/10 bg-panel shadow-soft">
-          <img src="images/Personal/20260302_Antique Fireplace/main.png" alt="Antique Fireplace portfolio preview" class="absolute inset-0 h-full w-full object-cover" loading="eager">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-            <p class="text-sm font-semibold uppercase tracking-[.28em] text-gold">Featured Work</p>
-            <h2 class="mt-3 text-3xl font-black text-white">Antique Fireplace</h2>
-            <p class="mt-2 max-w-md text-sm leading-6 text-neutral-300">Personal work archive connected to the gallery and lightbox system.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="mx-auto mt-12 grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
-        <button class="glass rounded-lg p-5 text-left transition hover:border-mint/50 hover:bg-white/10" data-company-link="Company A">
-          <span class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-400">Company</span>
-          <strong class="mt-3 block text-xl text-white">Company A</strong>
-        </button>
-        <button class="glass rounded-lg p-5 text-left transition hover:border-mint/50 hover:bg-white/10" data-company-link="Company B">
-          <span class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-400">Company</span>
-          <strong class="mt-3 block text-xl text-white">Company B</strong>
-        </button>
-        <button class="glass rounded-lg p-5 text-left transition hover:border-mint/50 hover:bg-white/10" data-company-link="Company C">
-          <span class="text-xs font-semibold uppercase tracking-[.24em] text-neutral-400">Company</span>
-          <strong class="mt-3 block text-xl text-white">Company C</strong>
-        </button>
-      </div>
-    </section>
-
-    <section id="spotlight" class="section-view">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-[.32em] text-gold">Rank Snapshot</p>
-            <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Spotlight</h2>
-          </div>
-          <p id="rankStatus" class="text-sm text-neutral-400">Daily snapshot</p>
-        </div>
-
-        <div id="rankGrid" class="grid auto-rows-fr gap-4 lg:grid-cols-4"></div>
-        <div class="mt-12">
-          <div class="mb-5 flex items-center justify-between">
-            <h3 class="text-2xl font-black text-white">Featured</h3>
-            <button class="rounded border border-white/15 px-4 py-2 text-sm font-semibold text-neutral-200 transition hover:bg-white hover:text-ink" data-section-link="all">View All</button>
-          </div>
-          <div id="featuredGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="all" class="section-view">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-[.32em] text-mint">All Works</p>
-            <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">ALL Portfolio</h2>
-          </div>
-          <div class="flex flex-wrap gap-2" id="allFilters" aria-label="Portfolio filters"></div>
-        </div>
-
-        <div id="allGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-        <div id="allSentinel" class="h-16"></div>
-      </div>
-    </section>
-
-    <section id="professional" class="section-view">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-          <p class="text-sm font-semibold uppercase tracking-[.32em] text-coral">Client & Studio</p>
-          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Professional</h2>
-        </div>
-        <div id="professionalGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-        <div id="professionalEmpty" class="glass hidden rounded-lg p-8 text-neutral-300">
-          images/Professional/ 폴더에 작품 데이터를 추가하면 이 영역에 표시됩니다.
-        </div>
-      </div>
-    </section>
-
-    <section id="personal" class="section-view">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-          <p class="text-sm font-semibold uppercase tracking-[.32em] text-mint">Archive</p>
-          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Personal Works</h2>
-        </div>
-        <div id="personalGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-      </div>
-
-      <footer class="mx-auto mt-16 max-w-7xl border-t border-white/10 px-4 py-8 text-sm text-neutral-400 sm:px-6 lg:px-8">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p>© <span id="year"></span> ChaiHK70. Portfolio archive.</p>
           <div class="flex flex-wrap gap-3">
-            <button class="rounded border border-white/15 px-4 py-2 font-semibold text-neutral-200 transition hover:bg-white hover:text-ink" data-copy-email>Email <i class="fa-regular fa-envelope ml-1"></i></button>
             <button class="rounded border border-white/15 px-4 py-2 font-semibold text-neutral-200 transition hover:bg-white hover:text-ink" id="backToTop">Back to top</button>
           </div>
         </div>
+      </div>
+
+      <footer class="mx-auto mt-16 max-w-7xl border-t border-white/10 px-4 py-8 text-sm text-neutral-400 sm:px-6 lg:px-8">
+        <p>© <span id="year"></span> Jihoon Choi. Portfolio archive.</p>
       </footer>
-    </section>
-
-    <section id="sketch" class="section-view">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-          <p class="text-sm font-semibold uppercase tracking-[.32em] text-gold">Studies</p>
-          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Sketch Note</h2>
-        </div>
-        <div id="sketchGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-      </div>
-    </section>
-
-    <section id="designer" class="section-view">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-          <p class="text-sm font-semibold uppercase tracking-[.32em] text-coral">Design Archive</p>
-          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Designer</h2>
-        </div>
-        <div id="designerGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-      </div>
-    </section>
-
-    <section id="relight" class="section-view">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-          <p class="text-sm font-semibold uppercase tracking-[.32em] text-mint">Lighting Studies</p>
-          <h2 class="mt-3 text-4xl font-black text-paper sm:text-5xl">Re:Lighting</h2>
-        </div>
-        <div id="relightGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-        <div id="relightEmpty" class="glass hidden rounded-lg p-8 text-neutral-300">
-          images/ReLighting/ 폴더에 작품 데이터를 추가하면 이 영역에 표시됩니다.
-        </div>
-      </div>
     </section>
   </main>
 
@@ -644,7 +955,7 @@
 
     const state = {
       db: null,
-      activeSection: "about",
+      activeSection: "hero",
       allFilter: "ALL",
       allRenderIndex: 0,
       isAppendingAll: false,
@@ -660,11 +971,10 @@
       }
     };
 
-    const sectionIds = ["about", "spotlight", "all", "professional", "personal", "sketch", "designer", "relight"];
+    const sectionIds = ["hero", "works", "project", "about"];
     const selectors = {
       allGrid: document.getElementById("allGrid"),
       allSentinel: document.getElementById("allSentinel"),
-      allFilters: document.getElementById("allFilters"),
       rankGrid: document.getElementById("rankGrid"),
       rankStatus: document.getElementById("rankStatus"),
       featuredGrid: document.getElementById("featuredGrid"),
@@ -675,6 +985,7 @@
       lightboxTitle: document.getElementById("lightboxTitle"),
       lightboxMeta: document.getElementById("lightboxMeta"),
       lightboxCount: document.getElementById("lightboxCount"),
+      worksCount: document.getElementById("worksCount"),
       toast: document.getElementById("toast")
     };
 
@@ -687,7 +998,7 @@
       setupImageProtection();
       bindGlobalEvents();
       renderAllStaticSections();
-      setupAllFilters();
+      resetAllGrid();
       setupInfiniteScroll();
       loadRankSnapshot();
       showSection(getInitialSection(), { scrollTop: true, replaceHash: true });
@@ -704,7 +1015,6 @@
     function setupFirebase() {
       const configured = firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("YOUR_");
       if (!configured) {
-        selectors.rankStatus.textContent = "Local snapshot";
         return;
       }
 
@@ -788,33 +1098,31 @@
     }
 
     function renderAllStaticSections() {
-      renderCategoryGrid("PERSONAL", "personalGrid");
-      renderCategoryGrid("PROFESSIONAL", "professionalGrid", "professionalEmpty");
-      renderCategoryGrid("SKETCH", "sketchGrid");
-      renderCategoryGrid("DESIGNER", "designerGrid");
-      renderCategoryGrid("RELIGHT", "relightGrid", "relightEmpty");
       renderFeatured();
       renderRankGrid(getRankOrderedProjects());
     }
 
     function renderCategoryGrid(category, gridId, emptyId) {
       const grid = document.getElementById(gridId);
+      if (!grid) return;
       const items = projects.filter((project) => project.category === category);
       grid.innerHTML = items.map((project) => createProjectCard(project, { source: "category" })).join("");
       grid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
 
       if (emptyId) {
-        document.getElementById(emptyId).classList.toggle("hidden", items.length > 0);
+        document.getElementById(emptyId)?.classList.toggle("hidden", items.length > 0);
       }
     }
 
     function renderFeatured() {
+      if (!selectors.featuredGrid) return;
       const featured = projects.filter((project) => project.featured).slice(0, 6);
       selectors.featuredGrid.innerHTML = featured.map((project) => createProjectCard(project, { source: "category" })).join("");
       selectors.featuredGrid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
     }
 
     function renderRankGrid(items) {
+      if (!selectors.rankGrid) return;
       const ranked = items.slice(0, 12);
       selectors.rankGrid.innerHTML = ranked.map((project, index) => {
         const rankClass = index === 0 ? "rank-one" : index < 3 ? "rank-wide" : "";
@@ -823,33 +1131,10 @@
       selectors.rankGrid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
     }
 
-    function setupAllFilters() {
-      const filters = [
-        { id: "ALL", label: "All" },
-        ...Object.entries(categoryMeta).map(([id, meta]) => ({ id, label: meta.label }))
-      ];
-
-      selectors.allFilters.innerHTML = filters.map((filter) => `
-        <button class="rounded border px-3 py-2 text-sm font-semibold transition ${filter.id === state.allFilter ? "border-paper bg-paper text-ink" : "border-white/15 text-neutral-300 hover:bg-white hover:text-ink"}" data-all-filter="${filter.id}">
-          ${escapeHtml(filter.label)}
-        </button>
-      `).join("");
-
-      selectors.allFilters.querySelectorAll("[data-all-filter]").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.allFilter = button.getAttribute("data-all-filter");
-          setupAllFilters();
-          resetAllGrid();
-        });
-      });
-
-      resetAllGrid();
-    }
-
     function setupInfiniteScroll() {
       const observer = new IntersectionObserver((entries) => {
         const entry = entries[0];
-        if (entry.isIntersecting && state.activeSection === "all") appendAllGrid();
+        if (entry.isIntersecting) appendAllGrid();
       }, {
         root: null,
         rootMargin: "420px 0px",
@@ -861,6 +1146,7 @@
     function resetAllGrid() {
       state.allRenderIndex = 0;
       selectors.allGrid.innerHTML = "";
+      updateWorksCount();
       appendAllGrid();
     }
 
@@ -870,7 +1156,16 @@
 
       const source = getAllFilteredProjects();
       const nextItems = source.slice(state.allRenderIndex, state.allRenderIndex + PAGE_SIZE);
-      const html = nextItems.map((project) => createProjectCard(project, { source: "all" })).join("");
+      const rows = [];
+      for (let index = 0; index < nextItems.length; index += 3) {
+        const rowItems = nextItems.slice(index, index + 3);
+        rows.push(`
+          <div class="works-row">
+            ${rowItems.map((project) => createProjectCard(project, { source: "all" })).join("")}
+          </div>
+        `);
+      }
+      const html = rows.join("");
       selectors.allGrid.insertAdjacentHTML("beforeend", html);
       selectors.allGrid.querySelectorAll("[data-project-id]:not([data-bound])").forEach(bindCardOpen);
       state.allRenderIndex += nextItems.length;
@@ -884,6 +1179,12 @@
       state.isAppendingAll = false;
     }
 
+    function updateWorksCount() {
+      if (!selectors.worksCount) return;
+      const count = getAllFilteredProjects().length;
+      selectors.worksCount.textContent = `${count} Projects`;
+    }
+
     function createProjectCard(project, options = {}) {
       const rank = options.rank ? `<span class="absolute left-3 top-3 z-10 rounded bg-paper px-3 py-1 text-xs font-black text-ink">#${options.rank}</span>` : "";
       const badge = getProjectBadge(project);
@@ -891,7 +1192,7 @@
       const source = options.source || "category";
       const poster = getProjectPoster(project);
       const image = poster
-        ? `<img src="${escapeAttribute(poster)}" alt="${escapeAttribute(project.title)}" class="absolute inset-0 h-full w-full object-contain" loading="lazy" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">`
+        ? `<img src="${escapeAttribute(poster)}" alt="${escapeAttribute(project.title)}" class="absolute inset-0 h-full w-full object-cover" loading="lazy" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">`
         : "";
 
       return `
@@ -906,7 +1207,7 @@
             </div>
           </div>
           <div class="card-overlay absolute inset-0"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-5">
+          <div class="card-copy absolute bottom-0 left-0 right-0 p-5">
             <p class="hover-date mb-2 text-xs font-semibold uppercase tracking-[.22em] text-gold">${formatDate(project.publishedAt)}</p>
             <h3 class="text-2xl font-black text-white">${escapeHtml(project.title)}</h3>
             <p class="mt-1 text-sm text-neutral-300">${escapeHtml(project.subtitle || categoryMeta[project.category]?.label || "")}</p>
@@ -917,6 +1218,15 @@
 
     function bindCardOpen(card) {
       card.dataset.bound = "true";
+      const image = card.querySelector("img");
+      if (image) {
+        if (image.complete) {
+          setCardAspectFromImage(image);
+        } else {
+          image.addEventListener("load", () => setCardAspectFromImage(image), { once: true });
+        }
+      }
+
       card.addEventListener("click", () => {
         const project = findProject(card.dataset.projectId);
         const source = card.dataset.openSource || "category";
@@ -937,13 +1247,18 @@
       });
     }
 
-    function showSection(section, options = {}) {
-      if (!sectionIds.includes(section)) section = "about";
-      state.activeSection = section;
+    function setCardAspectFromImage(image) {
+      if (!image.naturalWidth || !image.naturalHeight) return;
+      const card = image.closest(".portfolio-card");
+      if (!card) return;
+      const aspect = Math.min(3.6, Math.max(.7, image.naturalWidth / image.naturalHeight));
+      card.style.setProperty("--poster-aspect", aspect.toFixed(4));
+      card.style.setProperty("--poster-flex", aspect.toFixed(4));
+    }
 
-      sectionIds.forEach((id) => {
-        document.getElementById(id).classList.toggle("is-active", id === section);
-      });
+    function showSection(section, options = {}) {
+      if (!sectionIds.includes(section)) section = "hero";
+      state.activeSection = section;
 
       document.querySelectorAll(".nav-link").forEach((link) => {
         link.classList.toggle("is-active", link.getAttribute("data-section-link") === section);
@@ -953,18 +1268,23 @@
         history.pushState(null, "", `#${section}`);
       }
 
-      if (options.scrollTop || section === "about") {
-        window.scrollTo({ top: 0, behavior: options.replaceHash ? "auto" : "smooth" });
+      const target = document.getElementById(section);
+      if (target && options.scrollTop) {
+        if (section === "hero") {
+          window.scrollTo({ top: 0, behavior: options.replaceHash ? "auto" : "smooth" });
+        } else {
+          target.scrollIntoView({ behavior: options.replaceHash ? "auto" : "smooth", block: "start" });
+        }
       }
 
-      if (section === "all") {
+      if (section === "works") {
         requestAnimationFrame(() => appendAllGrid());
       }
     }
 
     function getInitialSection() {
       const section = location.hash.replace("#", "");
-      return sectionIds.includes(section) ? section : "about";
+      return sectionIds.includes(section) ? section : "hero";
     }
 
     function openCompanyLightbox(company) {
@@ -1185,7 +1505,7 @@
 
           const data = snapshot.data();
           applyRankSnapshot(data.items || []);
-          selectors.rankStatus.textContent = `Snapshot ${dateKey}`;
+          if (selectors.rankStatus) selectors.rankStatus.textContent = `Snapshot ${dateKey}`;
           return;
         } catch (error) {
           console.warn("Rank snapshot load skipped:", error);
@@ -1194,7 +1514,7 @@
 
       state.rankItems = getRankOrderedProjects();
       renderRankGrid(state.rankItems);
-      selectors.rankStatus.textContent = "Local snapshot";
+      if (selectors.rankStatus) selectors.rankStatus.textContent = "Local snapshot";
     }
 
     function applyRankSnapshot(items) {
@@ -1225,7 +1545,8 @@
     }
 
     function getAllFilteredProjects() {
-      const source = state.allFilter === "ALL" ? projects : projects.filter((project) => project.category === state.allFilter);
+      const works = projects.filter((project) => project.category !== "SKETCH");
+      const source = state.allFilter === "ALL" ? works : works.filter((project) => project.category === state.allFilter);
       return [...source].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
     }
 
