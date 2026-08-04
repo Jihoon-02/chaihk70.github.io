@@ -901,26 +901,238 @@
       border: 0;
     }
 
-    .about-image-card {
-      aspect-ratio: 2075 / 2160;
-      justify-self: center;
-      width: min(100%, 68rem);
-      max-width: 100%;
+    .about-layout {
+      --about-photo-width: clamp(28.25rem, 29.25vw, 34.75rem);
+      --about-copy-width: clamp(42.375rem, 43.875vw, 52.125rem);
+      --about-panel-height: clamp(31rem, 32vw, 38rem);
+      display: grid;
+      grid-template-columns: max-content minmax(16rem, 1fr);
+      align-items: start;
+      gap: clamp(1.5rem, 3vw, 3.5rem);
+      max-width: none;
+      padding-inline: clamp(1.25rem, 3vw, 4rem);
     }
 
-    @media (min-width: 1024px) {
-      .about-hero-grid {
-        min-height: calc(100vh - var(--header-height) - .75rem);
+    .about-left {
+      min-width: 0;
+    }
+
+    #about.section-view {
+      padding-top: calc(var(--header-height) + 1.25rem);
+    }
+
+    .about-kicker,
+    .about-panel-kicker {
+      color: #27a9ff;
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .about-visual-row {
+      margin-top: clamp(1.75rem, 3vw, 2.5rem);
+      display: grid;
+      grid-template-columns: var(--about-photo-width) var(--about-copy-width);
+      align-items: start;
+      gap: clamp(1.25rem, 2.5vw, 2.75rem);
+    }
+
+    .about-photo-card {
+      width: var(--about-photo-width);
+      height: var(--about-panel-height);
+      aspect-ratio: 1920 / 2104;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: #05070a;
+    }
+
+    .about-photo-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .about-copy {
+      display: flex;
+      flex-direction: column;
+      width: var(--about-copy-width);
+      height: var(--about-panel-height);
+      max-width: none;
+      color: rgba(255, 255, 255, .64);
+      font-size: .98rem;
+      line-height: 1.9;
+    }
+
+    .about-copy strong {
+      display: block;
+      margin-bottom: .65rem;
+      color: rgba(244, 240, 232, .88);
+      font-size: clamp(1.45rem, 2vw, 2.1rem);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .about-profile-panel {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: var(--about-panel-height);
+      min-width: 0;
+      margin-top: calc(clamp(1.75rem, 3vw, 2.5rem) + .66rem);
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: linear-gradient(140deg, rgba(9, 22, 28, .68), rgba(4, 6, 9, .74));
+      padding: clamp(1.35rem, 2vw, 2.3rem);
+      overflow: hidden;
+    }
+
+    .about-info-row {
+      display: grid;
+      grid-template-columns: 5rem minmax(0, 1fr);
+      gap: 1rem;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, .09);
+      padding: 1.05rem 0;
+    }
+
+    .about-info-row:first-child {
+      padding-top: 0;
+    }
+
+    .about-info-row dt {
+      color: #27a9ff;
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .about-info-row dd {
+      color: rgba(244, 240, 232, .82);
+      font-size: .95rem;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .about-info-row button {
+      color: rgba(244, 240, 232, .86);
+      transition: color .2s ease;
+    }
+
+    .about-info-row button:hover {
+      color: #27a9ff;
+    }
+
+    .about-tools {
+      padding-top: clamp(2rem, 4vw, 4rem);
+    }
+
+    .about-back-button {
+      margin-top: auto;
+      margin-bottom: .4rem;
+      align-self: flex-start;
+    }
+
+    .about-education {
+      margin-top: auto;
+      padding-top: 1.05rem;
+      border-top: 1px solid rgba(39, 169, 255, .36);
+    }
+
+    .about-education-kicker {
+      color: #27a9ff;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+
+    .about-education-main {
+      margin-top: .75rem;
+      color: rgba(244, 240, 232, .9);
+      font-size: .92rem;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .about-education-main strong {
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .about-education-year {
+      color: rgba(244, 240, 232, .86);
+      font-weight: 700;
+    }
+
+    .about-education-sub {
+      margin-top: .35rem;
+      color: rgba(244, 240, 232, .58);
+      font-size: .8rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .about-tool-list {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .48rem;
+    }
+
+    .about-tool-list span {
+      border: 1px solid rgba(255, 255, 255, .14);
+      padding: .48rem .72rem;
+      color: rgba(244, 240, 232, .56);
+      font-size: .56rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1180px) {
+      .about-layout {
+        --about-photo-width: clamp(18rem, 31vw, 24rem);
+        --about-copy-width: clamp(27rem, 46.5vw, 36rem);
+        grid-template-columns: 1fr;
+        gap: 2.75rem;
       }
 
-      .about-image-card {
-        justify-self: start;
-        width: min(68rem, calc(100vw - 40rem));
-        max-width: none;
+      .about-profile-panel {
+        margin-top: 0;
       }
     }
 
     @media (max-width: 1024px) {
+      .about-layout {
+        --about-photo-width: clamp(16rem, 32vw, 22rem);
+        --about-copy-width: clamp(24rem, 48vw, 33rem);
+        grid-template-columns: 1fr;
+        gap: 2.75rem;
+      }
+
+      .about-visual-row {
+        grid-template-columns: var(--about-photo-width) var(--about-copy-width);
+      }
+
+      .about-photo-card {
+        width: min(100%, 26rem);
+        height: auto;
+        aspect-ratio: 1920 / 2104;
+      }
+
+      .about-profile-panel {
+        height: auto;
+        margin-top: 0;
+      }
+
+      .about-copy {
+        height: auto;
+      }
+
       .rank-one,
       .rank-wide {
         grid-column: span 1;
@@ -1015,6 +1227,15 @@
       .hero-scroll {
         display: none;
       }
+
+      .about-visual-row {
+        grid-template-columns: 1fr;
+      }
+
+      .about-info-row {
+        grid-template-columns: 1fr;
+        gap: .45rem;
+      }
     }
   </style>
 </head>
@@ -1082,7 +1303,69 @@
     </section>
 
     <section id="about" class="section-view editorial-section">
-      <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-8">
+      <div class="about-layout">
+        <div class="about-left">
+          <p class="about-kicker">About</p>
+          <div class="about-visual-row">
+          <figure class="about-photo-card">
+            <img src="images/About/Me.jpg" alt="Jihoon Choi portrait">
+          </figure>
+          <div class="about-copy">
+            <strong>공간의 분위기와 재질, 실루엣을 통해 작업의 이야기가 자연스럽게 전달되도록 만듭니다.</strong>
+            <p>3D 환경과 프랍을 중심으로 구조, 디테일, 라이팅을 세심하게 조율하며 보는 사람이 장면 안의 맥락을 읽을 수 있는 포트폴리오를 만들어가고 있습니다.</p>
+            <div class="about-education">
+              <p class="about-education-kicker">Education</p>
+              <p class="about-education-main"><span class="about-education-year">2021 - 2027</span> <strong>Korea Aerospace University</strong></p>
+              <p class="about-education-sub">School of Aerospace and Mechanical Engineering</p>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <aside class="about-profile-panel" aria-label="About profile">
+          <dl>
+            <div class="about-info-row">
+              <dt>Name</dt>
+              <dd>Jihoon Choi</dd>
+            </div>
+            <div class="about-info-row">
+              <dt>Role</dt>
+              <dd>3D Background Artist</dd>
+            </div>
+            <div class="about-info-row">
+              <dt>Email</dt>
+              <dd>
+                <button type="button" data-copy-email>chaihk70@gmail.com</button>
+              </dd>
+            </div>
+            <div class="about-info-row">
+              <dt>Birth</dt>
+              <dd>2002.03</dd>
+            </div>
+            <div class="about-info-row">
+              <dt>Focus</dt>
+              <dd>Environment Art · Props · Material · Lighting</dd>
+            </div>
+          </dl>
+
+          <div class="about-tools">
+            <p class="about-panel-kicker">Tools</p>
+            <div class="about-tool-list" aria-label="Tools">
+              <span>3DS MAX</span>
+              <span>ZBRUSH</span>
+              <span>SUBSTANCE PAINTER</span>
+              <span>MARMOSET</span>
+              <span>UNREAL ENGINE 5</span>
+              <span>PHOTOSHOP</span>
+              <span>RIZOM UV</span>
+            </div>
+          </div>
+
+          <button class="about-back-button border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.18em] text-neutral-300 transition hover:bg-white hover:text-ink" type="button" data-section-link="hero">Back to top</button>
+        </aside>
+      </div>
+
+      <div class="hidden" aria-hidden="true">
         <div>
           <p class="text-sm font-semibold uppercase tracking-[.32em] text-coral">About</p>
           <h2 class="mt-3 text-5xl font-black leading-none text-paper sm:text-7xl">Jihoon Choi</h2>
@@ -1357,10 +1640,15 @@
         featured: true,
         cover: "images/Personal/20260710_Zbrush Study/T_1.png",
         media: [
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/pillar_main.png", title: "Pillar Main" },
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/pillar_crack.png", title: "Pillar Crack" },
           { type: "image", src: "images/Personal/20260710_Zbrush Study/T_1.png", title: "Camera 1" },
           { type: "image", src: "images/Personal/20260710_Zbrush Study/T_2.png", title: "Camera 2" },
           { type: "image", src: "images/Personal/20260710_Zbrush Study/T_3.png", title: "Sculpt 1" },
-          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_4.png", title: "Sculpt 2" }
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/T_4.png", title: "Sculpt 2" },
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/Barrel-1.png", title: "Barrel 1" },
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/Barrel-2.png", title: "Barrel 2" },
+          { type: "image", src: "images/Personal/20260710_Zbrush Study/Barrel-3.png", title: "Barrel 3" }
         ]
       },
       {
