@@ -1287,7 +1287,7 @@
 
       .project-media-stage {
         display: grid;
-        grid-template-rows: auto minmax(18rem, 58dvh);
+        grid-template-rows: auto auto;
         min-height: 0;
         overflow: visible;
       }
@@ -1295,8 +1295,10 @@
       .project-media-shell {
         position: relative;
         inset: auto;
-        height: 100%;
-        padding: .25rem 0 .5rem;
+        align-items: flex-start;
+        height: auto;
+        min-height: 0;
+        padding: .45rem 0 .2rem;
         touch-action: pan-y;
       }
 
@@ -1326,7 +1328,7 @@
       .project-arrow {
         width: 2.05rem;
         height: 2.45rem;
-        top: calc(.82rem + 2.75rem + 29dvh);
+        top: calc(var(--mobile-heading-height, 4rem) + .45rem + (var(--mobile-media-height, 58dvh) / 2));
       }
 
       .project-arrow.prev {
@@ -2454,6 +2456,10 @@
     }
 
     function renderMainMedia(project, media) {
+      selectors.mediaShell.style.removeProperty("height");
+      selectors.mediaShell.closest(".project-media-stage")?.style.removeProperty("--mobile-media-height");
+      selectors.mediaShell.closest(".project-media-stage")?.style.removeProperty("--mobile-heading-height");
+
       if (media.type === "youtube") {
         const youtubeId = media.youtubeId || project.youtubeId;
         if (youtubeId && youtubeId !== "VIDEO_ID_HERE") {
@@ -2561,10 +2567,37 @@
       if (!frame || !image || !image.naturalWidth || !image.naturalHeight) return;
 
       const availableWidth = selectors.mediaShell.clientWidth;
+      const imageRatio = image.naturalWidth / image.naturalHeight;
+
+      if (isMobileLightboxView()) {
+        if (!availableWidth) return;
+        const maxHeight = Math.max(180, window.innerHeight * .58);
+        let frameWidth = availableWidth;
+        let frameHeight = frameWidth / imageRatio;
+
+        if (frameHeight > maxHeight) {
+          frameHeight = maxHeight;
+          frameWidth = frameHeight * imageRatio;
+        }
+
+        frame.style.width = `${Math.floor(frameWidth)}px`;
+        frame.style.height = `${Math.floor(frameHeight)}px`;
+        selectors.mediaShell.style.height = `${Math.ceil(frameHeight + 10)}px`;
+
+        const stage = selectors.mediaShell.closest(".project-media-stage");
+        const heading = stage?.querySelector(".project-mobile-heading");
+        stage?.style.setProperty("--mobile-media-height", `${Math.ceil(frameHeight)}px`);
+        stage?.style.setProperty("--mobile-heading-height", `${Math.ceil(heading?.offsetHeight || 0)}px`);
+        return;
+      }
+
+      selectors.mediaShell.style.removeProperty("height");
+      selectors.mediaShell.closest(".project-media-stage")?.style.removeProperty("--mobile-media-height");
+      selectors.mediaShell.closest(".project-media-stage")?.style.removeProperty("--mobile-heading-height");
+
       const availableHeight = selectors.mediaShell.clientHeight;
       if (!availableWidth || !availableHeight) return;
 
-      const imageRatio = image.naturalWidth / image.naturalHeight;
       const shellRatio = availableWidth / availableHeight;
       let frameWidth = availableWidth;
       let frameHeight = availableHeight;
