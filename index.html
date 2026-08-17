@@ -620,6 +620,10 @@
       transition: none;
     }
 
+    .project-media-shell img.is-zoomed.is-pinching {
+      transition: none;
+    }
+
     .project-media-shell .project-main-image {
       display: block;
       max-width: 100% !important;
@@ -1164,6 +1168,10 @@
         padding-top: calc(var(--header-height) + 1rem);
       }
 
+      #about.section-view {
+        padding-inline: clamp(1rem, 5vw, 1.45rem);
+      }
+
       .portfolio-card {
         min-height: 22rem;
       }
@@ -1306,6 +1314,10 @@
 
       .project-main-frame {
         max-height: none;
+      }
+
+      .project-media-shell .project-main-image {
+        touch-action: pan-y;
       }
 
       .project-mobile-heading {
@@ -1455,7 +1467,23 @@
       }
 
       .about-visual-row {
+        width: 100%;
         grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .about-layout {
+        --about-photo-width: 100%;
+        --about-copy-width: 100%;
+        width: 100%;
+        padding-inline: 0;
+      }
+
+      .about-photo-card,
+      .about-copy,
+      .about-profile-panel {
+        width: 100%;
+        max-width: 100%;
       }
 
       .about-info-row {
@@ -2509,36 +2537,74 @@
       let startY = 0;
       let offsetX = 0;
       let offsetY = 0;
+      let zoomScale = 2.5;
+      let pinching = false;
+      let pinchStartDistance = 0;
+      let pinchStartScale = 1;
+      let pinchStartOffsetX = 0;
+      let pinchStartOffsetY = 0;
+
+      const applyImageTransform = () => {
+        if (!image.classList.contains("is-zoomed")) {
+          image.style.removeProperty("transform");
+          return;
+        }
+
+        image.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomScale})`;
+      };
 
       const resetImagePosition = () => {
         offsetX = 0;
         offsetY = 0;
-        image.style.removeProperty("transform");
+        zoomScale = 2.5;
+        applyImageTransform();
       };
 
       const clampImagePosition = (x, y) => {
         const viewport = image.closest(".project-main-frame") || selectors.mediaShell;
         const viewportWidth = viewport.clientWidth || image.offsetWidth;
         const viewportHeight = viewport.clientHeight || image.offsetHeight;
-        const maxX = Math.max((image.offsetWidth * 2.5 - viewportWidth) / 2, 0);
-        const maxY = Math.max((image.offsetHeight * 2.5 - viewportHeight) / 2, 0);
+        const maxX = Math.max((image.offsetWidth * zoomScale - viewportWidth) / 2, 0);
+        const maxY = Math.max((image.offsetHeight * zoomScale - viewportHeight) / 2, 0);
         return {
           x: Math.max(-maxX, Math.min(maxX, x)),
           y: Math.max(-maxY, Math.min(maxY, y))
         };
       };
 
+      const setImageZoom = (zoomed, scale = 2.5) => {
+        image.classList.toggle("is-zoomed", zoomed);
+        if (!zoomed) {
+          offsetX = 0;
+          offsetY = 0;
+          zoomScale = 2.5;
+          image.style.removeProperty("transform");
+          return;
+        }
+
+        zoomScale = clamp(scale, 1.01, 6);
+        const position = clampImagePosition(offsetX, offsetY);
+        offsetX = position.x;
+        offsetY = position.y;
+        applyImageTransform();
+      };
+
+      const getTouchDistance = (touches) => Math.hypot(
+        touches[0].clientX - touches[1].clientX,
+        touches[0].clientY - touches[1].clientY
+      );
+
       image.addEventListener("click", () => {
         if (dragged) {
           dragged = false;
           return;
         }
-        image.classList.toggle("is-zoomed");
+        setImageZoom(!image.classList.contains("is-zoomed"), 2.5);
         resetImagePosition();
       });
 
       image.addEventListener("pointerdown", (event) => {
-        if (!image.classList.contains("is-zoomed")) return;
+        if (pinching || !image.classList.contains("is-zoomed")) return;
         dragging = true;
         startX = event.clientX;
         startY = event.clientY;
@@ -2552,7 +2618,7 @@
         const deltaY = event.clientY - startY;
         if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) dragged = true;
         const position = clampImagePosition(offsetX + deltaX, offsetY + deltaY);
-        image.style.transform = `translate(${position.x}px, ${position.y}px) scale(2.5)`;
+        image.style.transform = `translate(${position.x}px, ${position.y}px) scale(${zoomScale})`;
       });
 
       const stopDragging = (event) => {
@@ -2565,6 +2631,70 @@
       };
       image.addEventListener("pointerup", stopDragging);
       image.addEventListener("pointercancel", stopDragging);
+
+      image.addEventListener("touchstart", (event) => {
+        if (!isMobileLightboxView() || event.touches.length !== 2) return;
+        event.preventDefault();
+        event.stopPropagation();
+
+        pinching = true;
+        dragging = false;
+        dragged = true;
+        pinchStartDistance = getTouchDistance(event.touches);
+        pinchStartScale = image.classList.contains("is-zoomed") ? zoomScale : 1;
+        pinchStartOffsetX = offsetX;
+        pinchStartOffsetY = offsetY;
+        image.classList.remove("is-dragging");
+        image.classList.add("is-pinching");
+        setImageZoom(true, Math.max(pinchStartScale, 1.01));
+      }, { passive: false });
+
+      image.addEventListener("touchmove", (event) => {
+        if (!pinching || event.touches.length !== 2) return;
+        event.preventDefault();
+        event.stopPropagation();
+
+        const distance = getTouchDistance(event.touches);
+        if (!pinchStartDistance || !distance) return;
+        zoomScale = clamp(pinchStartScale * (distance / pinchStartDistance), 1, 6);
+
+        if (zoomScale <= 1.02) {
+          zoomScale = 1;
+          offsetX = 0;
+          offsetY = 0;
+          image.classList.remove("is-zoomed");
+          image.style.removeProperty("transform");
+          return;
+        }
+
+        image.classList.add("is-zoomed");
+        const position = clampImagePosition(pinchStartOffsetX, pinchStartOffsetY);
+        offsetX = position.x;
+        offsetY = position.y;
+        applyImageTransform();
+      }, { passive: false });
+
+      const stopPinching = () => {
+        if (!pinching) return;
+        pinching = false;
+        image.classList.remove("is-pinching");
+
+        if (!image.classList.contains("is-zoomed") || zoomScale <= 1.02) {
+          setImageZoom(false);
+        } else {
+          const position = clampImagePosition(offsetX, offsetY);
+          offsetX = position.x;
+          offsetY = position.y;
+          applyImageTransform();
+        }
+
+        window.setTimeout(() => {
+          dragged = false;
+        }, 450);
+      };
+
+      image.addEventListener("touchend", stopPinching, { passive: true });
+      image.addEventListener("touchcancel", stopPinching, { passive: true });
     }
 
     function fitProjectMainFrame() {
