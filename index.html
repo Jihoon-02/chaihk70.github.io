@@ -1288,6 +1288,8 @@
       .project-media-stage {
         display: grid;
         grid-template-rows: auto auto;
+        align-content: start;
+        height: auto;
         min-height: 0;
         overflow: visible;
       }
@@ -1300,6 +1302,10 @@
         min-height: 0;
         padding: .18rem 0 .15rem;
         touch-action: pan-y;
+      }
+
+      .project-main-frame {
+        max-height: none;
       }
 
       .project-mobile-heading {
