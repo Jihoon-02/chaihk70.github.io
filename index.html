@@ -2238,9 +2238,13 @@
       let lightboxTouchStartX = 0;
       let lightboxTouchStartY = 0;
       let lightboxTouchStarted = false;
+      const isInlineImageZoomed = () => Boolean(selectors.mediaShell.querySelector(".project-main-image.is-zoomed"));
 
       selectors.mediaShell.addEventListener("touchstart", (event) => {
-        if (!isMobileLightboxView() || !state.lightbox.open || state.zoom.open || event.touches.length !== 1) return;
+        if (!isMobileLightboxView() || !state.lightbox.open || state.zoom.open || event.touches.length !== 1 || isInlineImageZoomed()) {
+          lightboxTouchStarted = false;
+          return;
+        }
         const touch = event.touches[0];
         lightboxTouchStartX = touch.clientX;
         lightboxTouchStartY = touch.clientY;
@@ -2248,7 +2252,10 @@
       }, { passive: true });
 
       selectors.mediaShell.addEventListener("touchend", (event) => {
-        if (!lightboxTouchStarted || !isMobileLightboxView() || !state.lightbox.open || state.zoom.open) return;
+        if (!lightboxTouchStarted || !isMobileLightboxView() || !state.lightbox.open || state.zoom.open || isInlineImageZoomed()) {
+          lightboxTouchStarted = false;
+          return;
+        }
         lightboxTouchStarted = false;
         const touch = event.changedTouches[0];
         if (!touch) return;
