@@ -1298,7 +1298,7 @@
         align-items: flex-start;
         height: auto;
         min-height: 0;
-        padding: .45rem 0 .2rem;
+        padding: .18rem 0 .15rem;
         touch-action: pan-y;
       }
 
@@ -1328,7 +1328,7 @@
       .project-arrow {
         width: 2.05rem;
         height: 2.45rem;
-        top: calc(var(--mobile-heading-height, 4rem) + .45rem + (var(--mobile-media-height, 58dvh) / 2));
+        top: calc(var(--mobile-heading-height, 4rem) + .18rem + (var(--mobile-media-height, 44dvh) / 2));
       }
 
       .project-arrow.prev {
@@ -2571,7 +2571,8 @@
 
       if (isMobileLightboxView()) {
         if (!availableWidth) return;
-        const maxHeight = Math.max(180, window.innerHeight * .58);
+        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        const maxHeight = Math.max(150, viewportHeight * .44);
         let frameWidth = availableWidth;
         let frameHeight = frameWidth / imageRatio;
 
@@ -2582,7 +2583,7 @@
 
         frame.style.width = `${Math.floor(frameWidth)}px`;
         frame.style.height = `${Math.floor(frameHeight)}px`;
-        selectors.mediaShell.style.height = `${Math.ceil(frameHeight + 10)}px`;
+        selectors.mediaShell.style.removeProperty("height");
 
         const stage = selectors.mediaShell.closest(".project-media-stage");
         const heading = stage?.querySelector(".project-mobile-heading");
