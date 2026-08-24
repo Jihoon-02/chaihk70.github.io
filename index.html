@@ -468,6 +468,10 @@
       opacity: 1;
     }
 
+    .works-row .portfolio-card .hover-date {
+      color: #27a9ff;
+    }
+
     .works-row .portfolio-card:hover img {
       transform: scale(2.05);
     }
@@ -486,6 +490,14 @@
 
     .works-row .portfolio-card[data-project-id="personal-post-apocalyptic-knife"]:hover img {
       transform: scale(1.025);
+    }
+
+    .works-row .portfolio-card[data-project-id="personal-stylized-axe"] img {
+      transform: translateY(15%) scale(2);
+    }
+
+    .works-row .portfolio-card[data-project-id="personal-stylized-axe"]:hover img {
+      transform: translateY(15%) scale(2.05);
     }
 
 
@@ -1878,6 +1890,26 @@
     const CATEGORY_ORDER = ["PERSONAL", "PROFESSIONAL", "SKETCH", "DESIGNER", "RELIGHT"];
 
     const projects = [
+      {
+        id: "personal-stylized-axe",
+        category: "PERSONAL",
+        title: "Stylized Axe",
+        subtitle: "Stylized weapon",
+        descriptionHtml: "강한 실루엣과 과장된 형태감을 중심으로 제작한 스타일라이즈드 도끼 프랍입니다. 날과 손잡이의 비율, 금속과 가죽의 대비, 표면 마모를 통해 무기의 무게감과 판타지 분위기를 전달하고자 했습니다. <strong>형태 언어와 재질 대비</strong>를 정리하며 <strong>스타일라이즈드 프랍 표현</strong>에 집중했습니다.",
+        info: {
+          pipeline: "3ds Max → ZBrush → Substance Painter → Marmoset → Photoshop"
+        },
+        publishedAt: "2026-08-25",
+        featured: true,
+        cover: "images/Personal/20260825_Stylized Axe/Axe_main.png?v=20260825-0043",
+        media: [
+          { type: "image", src: "images/Personal/20260825_Stylized Axe/Axe_main.png?v=20260825-0043", title: "Main" },
+          { type: "image", src: "images/Personal/20260825_Stylized Axe/Axe_1.png?v=20260825-0043", title: "Camera 1" },
+          { type: "image", src: "images/Personal/20260825_Stylized Axe/Axe_2.png?v=20260825-0043", title: "Camera 2" },
+          { type: "image", src: "images/Personal/20260825_Stylized Axe/Axe_3.png?v=20260825-0043", title: "Camera 3" },
+          { type: "image", src: "images/Personal/20260825_Stylized Axe/Axe_Maps.png?v=20260825-0043", title: "Maps" }
+        ]
+      },
       {
         id: "personal-diesel-engine",
         category: "PERSONAL",
