@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <script>
@@ -183,8 +183,8 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(0, 0, 0, .82) 0%, rgba(0, 0, 0, .28) 46%, rgba(0, 0, 0, .56) 100%),
-        linear-gradient(180deg, rgba(0, 0, 0, .34) 0%, rgba(0, 0, 0, .16) 44%, rgba(0, 0, 0, .92) 100%);
+        linear-gradient(90deg, rgba(0, 0, 0, .205) 0%, rgba(0, 0, 0, .07) 46%, rgba(0, 0, 0, .14) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, .085) 0%, rgba(0, 0, 0, .04) 44%, rgba(0, 0, 0, .23) 100%);
     }
 
     .hero-outline {
@@ -307,6 +307,11 @@
       background: #020305;
     }
 
+    .project-section {
+      border-top: 1px solid rgba(255, 255, 255, .10);
+      padding-bottom: 5rem;
+    }
+
     .works-frame {
       width: 100%;
     }
@@ -331,6 +336,10 @@
 
     .works-title span {
       color: #27a9ff;
+    }
+
+    .project-title {
+      font-size: clamp(calc(5.3rem + 2pt), calc(6.35vw + 2pt), calc(8.2rem + 2pt));
     }
 
     .works-head-line {
@@ -982,18 +991,37 @@
       width: var(--about-copy-width);
       height: var(--about-panel-height);
       max-width: none;
-      color: rgba(255, 255, 255, .64);
-      font-size: .98rem;
+      color: rgba(255, 255, 255, .69);
+      font-size: 1.05rem;
       line-height: 1.9;
     }
 
-    .about-copy strong {
+    .about-copy > strong {
       display: block;
       margin-bottom: .65rem;
       color: rgba(244, 240, 232, .88);
       font-size: clamp(1.45rem, 2vw, 2.1rem);
-      font-weight: 600;
+      font-family: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: -.035em;
       line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    .about-copy > p + p {
+      margin-top: 1.35rem;
+    }
+
+    .about-copy > p b,
+    .about-copy > p strong {
+      display: inline;
+      margin: 0;
+      color: #ffffff;
+      font-size: inherit;
+      font-weight: 900;
+      line-height: inherit;
+      text-shadow: 0 0 14px rgba(255, 255, 255, .12);
     }
 
     .about-profile-panel {
@@ -1084,6 +1112,8 @@
     }
 
     .about-education-year {
+      display: block;
+      margin-bottom: .2rem;
       color: rgba(244, 240, 232, .86);
       font-weight: 700;
     }
@@ -1204,6 +1234,10 @@
 
       .works-title {
         font-size: clamp(3.8rem, 18vw, 5.6rem);
+      }
+
+      .project-title {
+        font-size: clamp(calc(2.72rem + 7pt), calc(12.85vw + 7pt), calc(4rem + 7pt));
       }
 
       .works-head-line,
@@ -1515,8 +1549,8 @@
       }
 
       .about-layout {
-        --about-frame-width: min(100vw, calc((100vh - var(--header-height)) * 1.7777777778));
-        --about-frame-height: min(56.25vw, calc(100vh - var(--header-height)));
+        --about-frame-width: min(96vw, calc((100vh - var(--header-height)) * 1.7777777778));
+        --about-frame-height: calc(var(--about-frame-width) * .5625);
         --about-photo-height: 36.75cqw;
         --about-photo-width: 33.55cqw;
         --about-content-gap: 3.1cqw;
@@ -1524,14 +1558,14 @@
         height: var(--about-frame-height);
         aspect-ratio: 16 / 9;
         display: grid;
-        grid-template-columns: minmax(0, 72%) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 72.5%) minmax(0, 25.1%);
         grid-template-rows: minmax(0, 1fr) auto;
         align-items: start;
         gap: 2.4%;
         row-gap: 2.15cqw;
         max-width: none;
         margin: 0 auto;
-        padding: 3.1% 2.8%;
+        padding: 3.1% 1.8%;
         container-type: inline-size;
         overflow: hidden;
       }
@@ -1567,11 +1601,11 @@
       .about-copy {
         width: 100%;
         height: 100%;
-        font-size: clamp(.72rem, .82cqw, .98rem);
-        line-height: 1.75;
+        font-size: clamp(.78rem, .9cqw, 1.05rem);
+        line-height: 1.72;
       }
 
-      .about-copy strong {
+      .about-copy > strong {
         margin-bottom: .65em;
         font-size: clamp(1.1rem, 1.55cqw, 2.1rem);
         line-height: 1.35;
@@ -1666,7 +1700,7 @@
     <section id="hero" class="section-view is-active">
       <div class="hero-media" aria-hidden="true">
         <img src="images/Personal/20260302_Antique Fireplace/main.png" alt="">
-        <iframe src="https://www.youtube.com/embed/LSr3tn-VHos?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=LSr3tn-VHos&amp;controls=0&amp;playsinline=1&amp;rel=0&amp;modestbranding=1" title="Portfolio showreel" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/egbFWcBxmlk?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=egbFWcBxmlk&amp;controls=0&amp;playsinline=1&amp;rel=0&amp;modestbranding=1" title="Portfolio showreel" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
 
       <div class="hero-outline left">ENV</div>
@@ -1705,8 +1739,18 @@
       </div>
     </section>
 
-    <section id="project" class="section-view editorial-section">
-      <div class="mx-auto min-h-[32rem] max-w-7xl px-4 sm:px-6 lg:px-8"></div>
+    <section id="project" class="section-view works-section project-section">
+      <div class="works-frame">
+        <div class="works-head">
+          <h2 class="works-title project-title">PRO<span>JECT</span></h2>
+          <div class="works-head-line" aria-hidden="true"></div>
+          <div class="works-count">
+            <strong id="projectCount">0 Projects</strong>
+            <span><i>·</i> Click — Detail</span>
+          </div>
+        </div>
+        <div id="projectGrid" class="works-grid"></div>
+      </div>
     </section>
 
     <section id="about" class="section-view editorial-section">
@@ -1718,11 +1762,14 @@
             <img src="images/About/Me.jpg" alt="Jihoon Choi portrait">
           </figure>
           <div class="about-copy">
-            <strong>공간의 분위기와 재질, 실루엣을 통해 작업의 이야기가 자연스럽게 전달되도록 만듭니다.</strong>
-            <p>3D 환경과 프랍을 중심으로 구조, 디테일, 라이팅을 세심하게 조율하며 보는 사람이 장면 안의 맥락을 읽을 수 있는 포트폴리오를 만들어가고 있습니다.</p>
+            <strong>디테일을 통해 게임 세계에 설득력을 더하는<br>3D 배경 아티스트입니다.</strong>
+            <p><strong>3ds Max · ZBrush · Substance Painter · Marmoset · UE5</strong>를 활용한 환경 제작 전 과정을 이해하고 있으며, 기획부터 모델링, 텍스처링, 라이팅과 씬 세팅까지 모든 단계를 직접 진행했습니다.</p>
+            <p>포트폴리오 작업에서는 오브젝트의 형태를 명확하게 보여주는 <strong>실루엣과 디테일 표현에 집중했습니다.</strong> 패브릭·석재·금속·유리·플라스틱·유기물 등 소재마다 서로 다른 표면의 특성과 질감을 관찰하고, 사용 흔적과 마모, 노화가 자연스럽게 드러나도록 표현하고자 했습니다. 또한 라이팅을 통해 제작한 오브젝트의 재질과 디테일이 효과적으로 전달될 수 있도록 작업했습니다.</p>
+            <p>게임을 좋아하며 자연스럽게 게임 속 환경과 오브젝트가 만들어지는 과정에 관심을 갖게 되었습니다. 플레이어가 작은 프랍 하나에서도 세계관과 이야기를 느끼고, 게임 속 공간에 더욱 깊이 몰입할 수 있도록 설득력 있는 환경을 만드는 것을 목표로 합니다.</p>
+            <p><strong>게임 배경 및 프랍 아티스트</strong>를 목표로 꾸준히 작업하고 있습니다.</p>
             <div class="about-education">
               <p class="about-education-kicker">Education</p>
-              <p class="about-education-main"><span class="about-education-year">2021 - 2027</span> <strong>Korea Aerospace University</strong></p>
+              <p class="about-education-main"><span class="about-education-year">2021 - 2027</span><strong>Korea Aerospace University</strong></p>
               <p class="about-education-sub">School of Aerospace and Mechanical Engineering</p>
             </div>
           </div>
@@ -1891,11 +1938,42 @@
 
     const projects = [
       {
+        id: "personal-windup",
+        category: "PERSONAL",
+        placement: "project",
+        title: "WeIND UP",
+        subtitle: "Team Project",
+        detailLabel: "Team Project",
+        descriptionHtml: "<strong>WeIND UP</strong>은 현재 개발 중인 <strong>2인 협동 퍼즐 게임</strong>입니다. 배경 아트팀은 <strong>아트팀장 1인과 프랍 모델러 2인</strong>으로 구성되어 있으며, 저는 <strong>프랍 모델러</strong>로 참여해 챕터별 분위기와 콘셉트에 맞는 다양한 프랍을 제작했습니다. 실제 게임에 적용되는 에셋인 만큼 <strong>게임 데이터에 적합한 최적화</strong>를 고려하는 동시에, 각 챕터의 분위기와 오브젝트의 특징이 효과적으로 드러날 수 있도록 <strong>실루엣과 형태 표현</strong>에 중점을 두고 작업했습니다.",
+        info: {
+          role: "3D Prop Modeling",
+          pipeline: "3D Max - RizomUv - Substance Painter - UE5"
+        },
+        publishedAt: "2026-09-02",
+        featured: true,
+        cover: "images/Personal/20260902_WeIND UP/Main.png?v=20260902-0127",
+        media: [
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Main.png?v=20260902-0127", title: "Main" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/생쥐.png?v=20260902-0127", title: "Mouse 1" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch1-3.png?v=20260902-0127", title: "Chapter 1-3" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/생쥐2.png?v=20260902-0127", title: "Mouse 2" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch1-2.png?v=20260902-0127", title: "Chapter 1-2" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch1-4.png?v=20260902-0127", title: "Chapter 1-4" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch1-6.png?v=20260902-0127", title: "Chapter 1-6" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch1-7.png?v=20260902-0127", title: "Chapter 1-7" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch2-1.png?v=20260902-0127", title: "Chapter 2-1" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch2-2.png?v=20260902-0127", title: "Chapter 2-2" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch2-3.png?v=20260902-0127", title: "Chapter 2-3" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch2-5.png?v=20260902-1601", title: "Chapter 2-5" },
+          { type: "image", src: "images/Personal/20260902_WeIND UP/Ch2-4.png?v=20260902-1601", title: "Chapter 2-4" }
+        ]
+      },
+      {
         id: "personal-stylized-axe",
         category: "PERSONAL",
         title: "Stylized Axe",
         subtitle: "Stylized weapon",
-        descriptionHtml: "강한 실루엣과 과장된 형태감을 중심으로 제작한 스타일라이즈드 도끼 프랍입니다. 날과 손잡이의 비율, 금속과 가죽의 대비, 표면 마모를 통해 무기의 무게감과 판타지 분위기를 전달하고자 했습니다. <strong>형태 언어와 재질 대비</strong>를 정리하며 <strong>스타일라이즈드 프랍 표현</strong>에 집중했습니다.",
+        descriptionHtml: "강한 <strong>실루엣과 과장된 형태감</strong>을 중심으로 제작한 스타일라이즈드 도끼 프랍입니다. 게임 에셋 제작을 고려해 형태를 효과적으로 유지할 수 있는 <strong>폴리곤 수와 와이어프레임 구성</strong>을 신경 써 모델링했으며, 포트폴리오 작업인 만큼 실루엣과 디테일이 필요한 부분에는 폴리곤을 조금 더 활용했습니다. 단순히 폴리곤 수를 줄이는 것보다 <strong>실루엣을 유지하면서 불필요한 면을 줄이고, 형태에 맞게 효율적으로 폴리곤을 배분하는 것</strong>에 중점을 두었습니다. 이를 통해 스타일라이즈드 프랍의 형태 표현과 함께 <strong>게임 에셋을 고려한 모델링</strong>을 보여주고자 했습니다.",
         info: {
           pipeline: "3D Max → RizomUV → Zbrush → Substance Painter → Marmoset → Photoshop"
         },
@@ -2033,7 +2111,7 @@
           { type: "image", src: "images/Personal/20260625_Old Chair/T_7_Main Camera 1_FullQuality.png", title: "Camera 1" },
           { type: "image", src: "images/Personal/20260625_Old Chair/T_7_Main Camera 3_FullQuality.png", title: "Camera 3" },
           { type: "image", src: "images/Personal/20260625_Old Chair/T_7_Main Camera 2_FullQuality.png", title: "Camera 2" },
-          { type: "image", src: "images/Personal/20260625_Old Chair/Maps.png", title: "Maps" }
+          { type: "image", src: "images/Personal/20260625_Old Chair/Maps.png?v=20260903-1613", title: "Maps" }
         ]
       },
       {
@@ -2140,6 +2218,7 @@
     const selectors = {
       allGrid: document.getElementById("allGrid"),
       allSentinel: document.getElementById("allSentinel"),
+      projectGrid: document.getElementById("projectGrid"),
       rankGrid: document.getElementById("rankGrid"),
       rankStatus: document.getElementById("rankStatus"),
       featuredGrid: document.getElementById("featuredGrid"),
@@ -2153,6 +2232,7 @@
       mobileLightboxMeta: document.getElementById("mobileLightboxMeta"),
       lightboxCount: document.getElementById("lightboxCount"),
       worksCount: document.getElementById("worksCount"),
+      projectCount: document.getElementById("projectCount"),
       zoomOverlay: document.getElementById("zoomOverlay"),
       zoomStage: document.getElementById("zoomStage"),
       zoomImage: document.getElementById("zoomImage"),
@@ -2334,6 +2414,7 @@
     function renderAllStaticSections() {
       renderFeatured();
       renderRankGrid(getRankOrderedProjects());
+      renderProjectSection();
     }
 
     function renderCategoryGrid(category, gridId, emptyId) {
@@ -2365,6 +2446,16 @@
       selectors.rankGrid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
     }
 
+    function renderProjectSection() {
+      if (!selectors.projectGrid) return;
+      const items = getProjectSectionProjects();
+      selectors.projectGrid.innerHTML = createWorksRows(items, "project");
+      selectors.projectGrid.querySelectorAll("[data-project-id]").forEach(bindCardOpen);
+      if (selectors.projectCount) {
+        selectors.projectCount.textContent = `${items.length} ${items.length === 1 ? "Project" : "Projects"}`;
+      }
+    }
+
     function setupInfiniteScroll() {
       const observer = new IntersectionObserver((entries) => {
         const entry = entries[0];
@@ -2390,16 +2481,7 @@
 
       const source = getAllFilteredProjects();
       const nextItems = source.slice(state.allRenderIndex, state.allRenderIndex + PAGE_SIZE);
-      const rows = [];
-      for (let index = 0; index < nextItems.length; index += 3) {
-        const rowItems = nextItems.slice(index, index + 3);
-        rows.push(`
-          <div class="works-row${rowItems.length < 3 ? " is-incomplete" : ""}" style="--row-count: ${rowItems.length}">
-            ${rowItems.map((project) => createProjectCard(project, { source: "all" })).join("")}
-          </div>
-        `);
-      }
-      const html = rows.join("");
+      const html = createWorksRows(nextItems, "all");
       selectors.allGrid.insertAdjacentHTML("beforeend", html);
       selectors.allGrid.querySelectorAll("[data-project-id]:not([data-bound])").forEach(bindCardOpen);
       state.allRenderIndex += nextItems.length;
@@ -2411,6 +2493,19 @@
       }
 
       state.isAppendingAll = false;
+    }
+
+    function createWorksRows(items, source = "all") {
+      const rows = [];
+      for (let index = 0; index < items.length; index += 3) {
+        const rowItems = items.slice(index, index + 3);
+        rows.push(`
+          <div class="works-row${rowItems.length < 3 ? " is-incomplete" : ""}" style="--row-count: ${rowItems.length}">
+            ${rowItems.map((project) => createProjectCard(project, { source })).join("")}
+          </div>
+        `);
+      }
+      return rows.join("");
     }
 
     function updateWorksCount() {
@@ -2457,7 +2552,7 @@
         const source = card.dataset.openSource || "category";
         if (!project) return;
 
-        const projectSet = getAllFilteredProjects();
+        const projectSet = source === "project" ? getProjectSectionProjects() : getAllFilteredProjects();
         openLightbox(projectSet.some((item) => item.id === project.id) ? projectSet : projects, project.id, { mode: source });
       });
     }
@@ -2523,7 +2618,7 @@
 
       const media = project.media[state.lightbox.mediaIndex] || project.media[0];
       selectors.lightboxTitle.textContent = project.title;
-      selectors.lightboxMeta.textContent = `${categoryMeta[project.category]?.label || ""} / ${formatDate(project.publishedAt)}`;
+      selectors.lightboxMeta.textContent = `${getProjectDetailLabel(project)} / ${formatDate(project.publishedAt)}`;
       selectors.mobileLightboxTitle.textContent = project.title;
       selectors.mobileLightboxMeta.textContent = selectors.lightboxMeta.textContent;
       selectors.lightboxCount.textContent = `${project.title} · ${state.lightbox.mediaIndex + 1} / ${project.media.length}`;
@@ -2796,7 +2891,7 @@
     }
 
     function renderProjectInfo(project, media) {
-      const category = categoryMeta[project.category]?.label || "Portfolio";
+      const category = getProjectDetailLabel(project);
       const details = {
         role: project.info?.role || "Full Pipeline",
         scope: project.info?.scope || "Modeling · Material Authoring · Lighting · Scene Composition",
@@ -3082,9 +3177,19 @@
     }
 
     function getAllFilteredProjects() {
-      const works = projects.filter((project) => project.category !== "SKETCH");
+      const works = projects.filter((project) => project.category !== "SKETCH" && !isProjectSectionProject(project));
       const source = state.allFilter === "ALL" ? works : works.filter((project) => project.category === state.allFilter);
       return [...source].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    }
+
+    function getProjectSectionProjects() {
+      return projects
+        .filter(isProjectSectionProject)
+        .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    }
+
+    function isProjectSectionProject(project) {
+      return project.placement === "project";
     }
 
     function getProjectBadge(project) {
@@ -3108,6 +3213,10 @@
       if (firstImage) return firstImage.src;
       const firstYoutube = project.media.find((media) => media.type === "youtube" && (media.youtubeId || project.youtubeId));
       return firstYoutube ? getYoutubeThumb(firstYoutube.youtubeId || project.youtubeId) : "";
+    }
+
+    function getProjectDetailLabel(project) {
+      return project.detailLabel || categoryMeta[project.category]?.label || "Portfolio";
     }
 
     function getYoutubeThumb(youtubeId) {
