@@ -174,8 +174,14 @@
       min-width: 177.78vh;
       min-height: 100vh;
       border: 0;
+      opacity: 0;
       pointer-events: none;
       transform: translate(-50%, -50%);
+      transition: opacity .45s ease;
+    }
+
+    .hero-media.is-video-playing iframe {
+      opacity: 1;
     }
 
     .hero-media::after {
@@ -1700,7 +1706,7 @@
     <section id="hero" class="section-view is-active">
       <div class="hero-media" aria-hidden="true">
         <img src="images/Personal/20260302_Antique Fireplace/main.png" alt="">
-        <iframe src="https://www.youtube.com/embed/egbFWcBxmlk?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=egbFWcBxmlk&amp;controls=0&amp;playsinline=1&amp;rel=0&amp;modestbranding=1" title="Portfolio showreel" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe id="heroVideo" src="https://www.youtube.com/embed/egbFWcBxmlk?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=egbFWcBxmlk&amp;controls=0&amp;playsinline=1&amp;rel=0&amp;modestbranding=1&amp;enablejsapi=1" title="Portfolio showreel" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
 
       <div class="hero-outline left">ENV</div>
@@ -2248,12 +2254,50 @@
       normalizeProjectData();
       setupFirebase();
       setupImageProtection();
+      setupHeroVideo();
       bindGlobalEvents();
       renderAllStaticSections();
       resetAllGrid();
       setupInfiniteScroll();
       loadRankSnapshot();
       showSection(getInitialSection(), { scrollTop: true, replaceHash: true });
+    }
+
+    function setupHeroVideo() {
+      const heroMedia = document.querySelector(".hero-media");
+      const heroVideo = document.getElementById("heroVideo");
+      if (!heroMedia || !heroVideo) return;
+
+      const revealVideo = () => heroMedia.classList.add("is-video-playing");
+      const createPlayer = () => {
+        if (!window.YT?.Player || heroVideo.dataset.playerReady) return;
+        heroVideo.dataset.playerReady = "true";
+        new window.YT.Player(heroVideo, {
+          events: {
+            onReady: (event) => event.target.playVideo(),
+            onStateChange: (event) => {
+              if (event.data === window.YT.PlayerState.PLAYING) revealVideo();
+            }
+          }
+        });
+      };
+
+      if (window.YT?.Player) {
+        createPlayer();
+        return;
+      }
+
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof previousReady === "function") previousReady();
+        createPlayer();
+      };
+
+      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+        const script = document.createElement("script");
+        script.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(script);
+      }
     }
 
     function normalizeProjectData() {
