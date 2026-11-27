@@ -690,10 +690,15 @@
       transition: color .2s ease, background .2s ease, border-color .2s ease;
     }
 
-    .project-arrow:hover {
+    .project-arrow:not(:disabled):hover {
       border-color: rgba(39, 169, 255, .7);
       background: rgba(0, 0, 0, .68);
       color: #fff;
+    }
+
+    .project-arrow:disabled {
+      opacity: .35;
+      cursor: default;
     }
 
     .project-arrow.prev {
@@ -1892,11 +1897,11 @@
             <h2 id="mobileLightboxTitle" class="project-mobile-title"></h2>
             <p id="mobileLightboxMeta" class="project-mobile-meta"></p>
           </div>
-          <button id="lightboxPrev" class="project-arrow prev" type="button" aria-label="Previous project">
+          <button id="lightboxPrev" class="project-arrow prev" type="button" aria-label="Older project">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
           <div id="mediaShell" class="media-shell project-media-shell"></div>
-          <button id="lightboxNext" class="project-arrow next" type="button" aria-label="Next project">
+          <button id="lightboxNext" class="project-arrow next" type="button" aria-label="Newer project">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
@@ -2318,6 +2323,8 @@
       rankStatus: document.getElementById("rankStatus"),
       featuredGrid: document.getElementById("featuredGrid"),
       lightbox: document.getElementById("lightbox"),
+      lightboxOlder: document.getElementById("lightboxPrev"),
+      lightboxNewer: document.getElementById("lightboxNext"),
       mediaShell: document.getElementById("mediaShell"),
       mediaStrip: document.getElementById("mediaStrip"),
       lightboxInfo: document.getElementById("lightboxInfo"),
@@ -2420,8 +2427,8 @@
 
       document.getElementById("backToTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
       document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
-      document.getElementById("lightboxPrev").addEventListener("click", () => moveLightboxProject(1));
-      document.getElementById("lightboxNext").addEventListener("click", () => moveLightboxProject(-1));
+      selectors.lightboxOlder.addEventListener("click", () => moveLightboxProject(1));
+      selectors.lightboxNewer.addEventListener("click", () => moveLightboxProject(-1));
       selectors.zoomClose.addEventListener("click", closeZoom);
 
       selectors.mediaStrip.addEventListener("wheel", (event) => {
@@ -2697,7 +2704,8 @@
       state.lightbox.open = true;
       state.lightbox.mode = options.mode || "category";
       state.lightbox.returnSection = options.returnSection || null;
-      state.lightbox.set = set.length ? set : projects;
+      state.lightbox.set = [...(set.length ? set : projects)]
+        .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
       state.lightbox.projectIndex = Math.max(0, state.lightbox.set.findIndex((project) => project.id === projectId));
       state.lightbox.mediaIndex = 0;
       state.lightbox.wheelLocked = false;
@@ -2710,6 +2718,9 @@
     function renderLightbox() {
       const project = getCurrentLightboxProject();
       if (!project) return;
+
+      selectors.lightboxOlder.disabled = state.lightbox.projectIndex >= state.lightbox.set.length - 1;
+      selectors.lightboxNewer.disabled = state.lightbox.projectIndex === 0;
 
       const media = project.media[state.lightbox.mediaIndex] || project.media[0];
       selectors.lightboxTitle.textContent = project.title;
@@ -3134,12 +3145,11 @@
       return window.matchMedia("(max-width: 768px)").matches;
     }
 
-    function moveLightboxProject(direction, mediaPosition = "first") {
-      const count = state.lightbox.set.length;
-      if (!count) return;
-      state.lightbox.projectIndex = (state.lightbox.projectIndex + direction + count) % count;
-      const project = getCurrentLightboxProject();
-      state.lightbox.mediaIndex = mediaPosition === "last" ? Math.max((project?.media.length || 1) - 1, 0) : 0;
+    function moveLightboxProject(direction) {
+      const nextIndex = state.lightbox.projectIndex + direction;
+      if (nextIndex < 0 || nextIndex >= state.lightbox.set.length) return;
+      state.lightbox.projectIndex = nextIndex;
+      state.lightbox.mediaIndex = 0;
       renderLightbox();
     }
 
